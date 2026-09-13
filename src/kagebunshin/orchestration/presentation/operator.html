@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="kagebunshin-csrf" content="__CSRF_TOKEN__"><title>multi-shadow-clone | 運転席</title>
+<link rel="stylesheet" href="/operator.css"><script defer src="/operator.js"></script></head>
+<body><a class="skip" href="#jobs">仕事へ移動</a><header><a class="brand" href="/">multi-shadow-clone<span>運転席</span></a><span id="connection" role="status">接続を確認中</span></header>
+<main><section class="intro"><div><p class="eyebrow">KAGEBUNSHIN / LOCAL OPERATOR</p><h1>分身たちの仕事を、<br>ここから見守る。</h1><p>必要な担当だけが働き、検査した成果を次へ渡します。緑は直近の生存通知がある担当、灰色は待機中です。</p></div><div class="summary"><p id="mode">実行方式を確認中</p><dl><div><dt>稼働中の役</dt><dd id="live">—</dd></div><div><dt>結果が不明な試行</dt><dd id="unknown">—</dd></div><div><dt>名簿の役</dt><dd id="total">—</dd></div></dl></div></section>
+<aside class="boundary"><strong>追加支出へ切り替えない</strong><span>既存Codex契約枠・現在の受入profileだけ。上限や不明な状態では止まります。候補という表示は、専門能力の認定前という意味です。</span></aside>
+<section id="request"><p class="eyebrow">NEW REQUEST</p><h2>何を手伝ってもらう？</h2>
+<p>目的と、判断に使う資料を書いて保存します。保存後に「実行」を押すと、必要な担当が選ばれます。</p>
+<form id="request-form"><label for="objective">やってほしいこと<textarea id="objective" name="objective" rows="3" required maxlength="2000" placeholder="例：この説明を読み、小学生向けの案内文と注意点を作る"></textarea></label>
+<label for="source">判断に使う資料（省略可）<textarea id="source" name="source" rows="5" maxlength="12000" placeholder="調べておいた本文や、自分で作ったデータを貼り付けます。URLだけでは本文を取得しません。"></textarea></label>
+<div class="form-foot"><label for="max-turns">計画・作成・監査を合わせた送信上限<input id="max-turns" name="max_turns" type="number" min="3" max="20" value="8" required></label><button id="save-request" type="submit" disabled>依頼を保存</button></div></form><p id="request-message" role="status"></p></section>
+<section id="jobs"><div class="section-heading"><div><p class="eyebrow">JOBS</p><h2>進んでいる仕事と、その記録</h2></div><button id="refresh" type="button">最新の状態を読む</button></div><p>「実行」で処理を始めます。「停止を解除」は停止を取り消すだけで、実行は始めません。過去の成果は、今の検査条件と一致する場合に再利用できます。</p><p id="message" role="status" aria-live="polite"></p><div id="job-list"></div></section>
+<section aria-labelledby="usage-heading"><p class="eyebrow">CODEX USAGE</p><h2 id="usage-heading">アカウント全体の週次利用枠</h2><p id="weekly-usage">未取得</p><button id="refresh-usage" type="button">利用枠を更新</button><p>更新ボタン、または実行前の利用条件確認時に取得します。各エージェント単独の消費量ではありません。</p></section>
+<section aria-labelledby="model-heading"><h2 id="model-heading">エージェントのモデル設定</h2><p>保存した設定は次に作る仕事へ適用します。既存の仕事は保存時の設定を維持します。</p><button id="load-models" type="button">設定を読み込む</button><form id="model-form"><label>対象<select id="model-role"><option value="">共通設定</option></select></label><label>モデル<select id="model-choice"></select></label><label>推論強度<select id="model-effort"></select></label><button id="save-models" type="submit" disabled>設定を保存</button><button id="inherit-model" type="button" disabled>共通設定へ戻す</button></form><p id="model-message" role="status"></p></section>
+<section id="delivery"><p class="eyebrow">DELIVERY</p><h2>投稿の結果と、専用環境</h2><p id="delivery-state"></p><div id="delivery-list"></div><p>投稿は監査済みの成果をCLIから送ります。この画面を開いただけでは投稿しません。</p></section>
+<section><div class="section-heading"><div><p class="eyebrow">SPECIALISTS</p><h2>必要なときに呼ぶ、専門役の名簿</h2></div><label>役名・分野で探す<input id="search" type="search" placeholder="統計、心理、監査…"></label></div><p id="role-count" role="status"></p><div id="role-list" class="role-list"></div></section>
+<footer>生存通知は15秒で期限切れになります。接続が切れたときは、画面の稼働表示を解除します。これは、外部処理がすべて停止したという意味ではありません。</footer></main></body></html>
