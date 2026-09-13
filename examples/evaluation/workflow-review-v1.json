@@ -1,0 +1,73 @@
+{
+  "version": "workflow-review-v1",
+  "scope": "Three synthetic multi-record development cases; not held-out, not certification, human correction effort unmeasured",
+  "cases": [
+    {
+      "id": "E01",
+      "held_out": false,
+      "basis": "synthetic delivery incident with conflicting UI and receipt",
+      "input": {
+        "request": "運用記録を照合し、確定した配送件数・未確定件数・再送の可否と次に必要な確認を報告してください。",
+        "records": "APIへのPOST予定は3件。J1は同じ業務キーと本文hashを持つ受領証あり。J2は送信後タイムアウト、受領証なし。J3は送信開始前にSTOPされ、予約取消済み。画面には成功3件と表示されている。配送先の照会機能・冪等保証の資料は未提供。"
+      },
+      "fields": {
+        "confirmed_deliveries": "integer: deliveries confirmed by receipts",
+        "unknown_deliveries": "integer: sent operations with unresolved outcomes",
+        "cancelled_before_send": "integer: operations cancelled before send",
+        "blind_resend_supported": "boolean: whether blind resend is supported by provided evidence",
+        "dashboard_consistent": "boolean: whether dashboard success count matches confirmed evidence"
+      },
+      "expected": {
+        "confirmed_deliveries": 1,
+        "unknown_deliveries": 1,
+        "cancelled_before_send": 1,
+        "blind_resend_supported": false,
+        "dashboard_consistent": false
+      }
+    },
+    {
+      "id": "E02",
+      "held_out": false,
+      "basis": "synthetic stratified rates",
+      "input": {
+        "request": "UI案A/Bの集計率と層別の傾向を整理し、因果効果を断定できるか説明してください。",
+        "records": "簡単な仕事: Aは成功81/90、Bは19/20。難しい仕事: Aは1/10、Bは16/80。成功は全試行を分母とする。割付は無作為ではなく利用者が選択した。"
+      },
+      "fields": {
+        "A_total_rate": "number: aggregate fraction",
+        "B_total_rate": "number: aggregate fraction",
+        "A_higher_in_both_strata": "boolean: A has higher rate in each stratum",
+        "B_higher_in_both_strata": "boolean: B has higher rate in each stratum",
+        "causal_effect_identified": "boolean: causal effect identified by these records"
+      },
+      "expected": {
+        "A_total_rate": 0.82,
+        "B_total_rate": 0.35,
+        "A_higher_in_both_strata": false,
+        "B_higher_in_both_strata": true,
+        "causal_effect_identified": false
+      }
+    },
+    {
+      "id": "E03",
+      "held_out": false,
+      "basis": "synthetic source correction and missing attachment",
+      "input": {
+        "request": "提出予定の報告「完了12件、全添付確認済み」を出典に照らして点検し、確定できる範囲と未確認事項を分けてください。",
+        "records": "S1は月末に完了12件と記載。翌日のS2はS1の訂正版と明記し、重複2件を除外して10件と記載。S2本文は提供済み。S3は添付動画へのURLだけで内容は未提供。S1とS2の原票は未提供。"
+      },
+      "fields": {
+        "latest_reported_completed": "integer: count explicitly reported by correction",
+        "underlying_records_verified": "boolean: original records verified",
+        "all_attachments_reviewed": "boolean: all attachments actually reviewed",
+        "original_count_current": "boolean: original count remains latest reported count"
+      },
+      "expected": {
+        "latest_reported_completed": 10,
+        "underlying_records_verified": false,
+        "all_attachments_reviewed": false,
+        "original_count_current": false
+      }
+    }
+  ]
+}

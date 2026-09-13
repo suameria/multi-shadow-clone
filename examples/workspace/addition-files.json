@@ -1,0 +1,4 @@
+{
+  "calc.js": "module.exports=(a,b)=>a-b;",
+  "check.js": "const assert=require('assert/strict'),add=require('./calc.js');assert.equal(add(7,4),11);assert.equal(add(-2,8),6);console.log('arithmetic-ok');"
+}

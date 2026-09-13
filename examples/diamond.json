@@ -1,0 +1,10 @@
+{
+  "objective": "2つの合成資料を別々に要約し、合格後に比較する。これはオフラインの動作例。",
+  "sources": {"sourceA": "合成資料A：参加者10名", "sourceB": "合成資料B：参加者15名"},
+  "limits": {"max_turns": 8, "max_concurrent": 2, "deadline_seconds": 900},
+  "nodes": [
+    {"id": "summaryA", "role_id": "R07", "instruction": "資料Aを要約する", "source_ids": ["sourceA"], "audit_role": "R12"},
+    {"id": "summaryB", "role_id": "R07", "instruction": "資料Bを要約する", "source_ids": ["sourceB"], "audit_role": "R12"},
+    {"id": "compare", "role_id": "R04", "instruction": "両方の検査済み要約を比較する", "dependencies": ["summaryA", "summaryB"], "input_types": {"summaryA": "response.v1", "summaryB": "response.v1"}, "audit_role": "R12"}
+  ]
+}

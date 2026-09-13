@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "max_calls": 2,
+  "scopes": [
+    {
+      "node_id": "work",
+      "stage": "generate",
+      "role_id": "R40",
+      "workspace_id": "addition-fixture",
+      "operations": [
+        "apply_changes"
+      ],
+      "paths": [
+        "calc.js"
+      ],
+      "checks": [],
+      "max_calls": 1,
+      "max_bytes": 4096
+    },
+    {
+      "node_id": "work",
+      "stage": "audit",
+      "role_id": "R46",
+      "workspace_id": "addition-fixture",
+      "operations": [
+        "run_check"
+      ],
+      "paths": [],
+      "checks": [
+        "arithmetic"
+      ],
+      "required_checks": [
+        "arithmetic"
+      ],
+      "max_calls": 1,
+      "max_bytes": 4096
+    }
+  ]
+}

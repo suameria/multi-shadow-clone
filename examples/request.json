@@ -1,0 +1,6 @@
+{
+  "objective": "合成資料の要点と限界を短く説明して。必要な専門役を選んで検査する。",
+  "sources": {"sourceA": "試作品Aは10人、試作品Bは15人が選んだ。無作為抽出や因果関係は確認していない。"},
+  "limits": {"max_turns": 8, "max_concurrent": 2, "deadline_seconds": 900},
+  "final_rules": []
+}

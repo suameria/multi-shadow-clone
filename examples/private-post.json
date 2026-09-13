@@ -1,0 +1,26 @@
+{
+  "objective": "専用ローカル環境の非公開テスト投稿を、提供した合成資料だけから作る",
+  "sources": {
+    "fixture": "すべて架空の情報。影分身図書館のテスト開館時間は13時から17時。実在の施設・開催予定ではない。これは非公開の結合試験用データ。"
+  },
+  "limits": {"max_turns": 2, "max_concurrent": 1, "deadline_seconds": 480},
+  "nodes": [
+    {
+      "id": "announcement",
+      "role_id": "R56",
+      "instruction": "合成資料から短い日本語のテスト案内を作る。response.v1のvalues.deliveryを、kind=tweet、visibility=private、body=案内本文の3項目だけで返す。bodyには影分身図書館、13時、17時、架空、テストという語を含め、実在の予定と誤解させない。宛先やHTTPヘッダーを作らない。外部投稿は別のcontrollerが担当する。",
+      "source_ids": ["fixture"],
+      "audit_role": "R12",
+      "max_attempts": 1,
+      "rules": [
+        {"path": "values.delivery.kind", "kind": "equals", "expected": "tweet"},
+        {"path": "values.delivery.visibility", "kind": "equals", "expected": "private"},
+        {"path": "values.delivery.body", "kind": "contains", "expected": "影分身図書館"},
+        {"path": "values.delivery.body", "kind": "contains", "expected": "13時"},
+        {"path": "values.delivery.body", "kind": "contains", "expected": "17時"},
+        {"path": "values.delivery.body", "kind": "contains", "expected": "架空"},
+        {"path": "values.delivery.body", "kind": "contains", "expected": "テスト"}
+      ]
+    }
+  ]
+}

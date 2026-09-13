@@ -1,0 +1,27 @@
+{
+  "objective": "専用fixtureの加算修正：実装担当と独立成果監査",
+  "nodes": [
+    {
+      "id": "work",
+      "role_id": "R40",
+      "instruction": "Fix calc.js to export addition. Initial content module.exports=(a,b)=>a-b; has SHA256 14f88afce4536cfe2e3a5b780cc310b634e9820c648009a4c3ba710ffc8257c9. Generator must call apply_changes with full corrected content. Auditor must call run_check arithmetic and approve only its actual passing receipt.",
+      "dependencies": [],
+      "input_types": {},
+      "source_ids": [],
+      "writes": [],
+      "output_type": "response.v1",
+      "rules": [],
+      "audit_role": "R46",
+      "max_attempts": 1,
+      "response_fields": {},
+      "response_format": "standard"
+    }
+  ],
+  "sources": {},
+  "limits": {
+    "max_turns": 2,
+    "max_concurrent": 1,
+    "deadline_seconds": 240
+  },
+  "version": 1
+}

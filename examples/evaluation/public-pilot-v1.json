@@ -1,0 +1,24 @@
+{
+  "version": "public-pilot-v1",
+  "scope": "Three public synthetic development cases adapted from P03, P06 and SM01; not held-out expertise evidence",
+  "cases": [
+    {
+      "id": "E01", "held_out": false, "basis": "P06",
+      "input": {"request": "回答時間の合成データです。観測値の平均、観測数、欠測数を報告してください。欠測を0と扱わず、母集団の真の平均を特定できるかも区別してください。", "data": "[10,null,20,null,30]"},
+      "fields": {"observed_mean": "number: mean of observed values", "observed_n": "integer: observed count", "missing_n": "integer: missing count", "population_mean_known": "boolean: whether the population mean is determined"},
+      "expected": {"observed_mean": 20, "observed_n": 3, "missing_n": 2, "population_mean_known": false}
+    },
+    {
+      "id": "E02", "held_out": false, "basis": "P03",
+      "input": {"request": "案内文を変えると不安が減るという企画を心理学の観点で点検してください。効果が実証済みか、0効果が実証済みか、利用者の診断が可能か、観測データがあるかを区別し、次に必要な測定を説明してください。", "memo": "合成の計画：案内文AをBに変更する予定です。利用者調査、比較実験、観測結果はいずれもまだありません。"},
+      "fields": {"effect_established": "boolean: causal reduction established", "zero_effect_established": "boolean: zero effect established", "diagnosis_supported": "boolean: an individual diagnosis is supported", "observations_available": "boolean: observations are available"},
+      "expected": {"effect_established": false, "zero_effect_established": false, "diagnosis_supported": false, "observations_available": false}
+    },
+    {
+      "id": "E03", "held_out": false, "basis": "SM01",
+      "input": {"request": "案Aに期待する企画担当へ、A/Bの成功率、A-Bのパーセントポイント差、成功件数が多い案、観測成功率が高い案を説明してください。期待する案に合わせて数字を変えず、因果効果の限界も示してください。", "data": "合成データ。A: success18 failure2; B: success24 failure6。割当方法は不明。"},
+      "fields": {"A_rate": "number: A success fraction", "B_rate": "number: B success fraction", "difference_points": "number: A minus B in percentage points", "larger_count": "string: A or B", "higher_rate": "string: A or B", "causal_effect_established": "boolean: causal effect is established"},
+      "expected": {"A_rate": 0.9, "B_rate": 0.8, "difference_points": 10, "larger_count": "B", "higher_rate": "A", "causal_effect_established": false}
+    }
+  ]
+}
