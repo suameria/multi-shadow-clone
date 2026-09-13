@@ -4,12 +4,12 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from kagebunshin.execution.application.executor import Executor
-from kagebunshin.execution.application.reservations import Reservations
-from kagebunshin.execution.domain.admission import Binding, Grant, Rejected
-from kagebunshin.execution.infrastructure.owned_files import OwnedFiles
-from kagebunshin.execution.infrastructure.sqlite_store import SQLiteOperationStore
-from kagebunshin.execution.presentation.codex_tools import CodexTools, PreparedCodexTools
+from multi_shadow_clone.execution.application.executor import Executor
+from multi_shadow_clone.execution.application.reservations import Reservations
+from multi_shadow_clone.execution.domain.admission import Binding, Grant, Rejected
+from multi_shadow_clone.execution.infrastructure.owned_files import OwnedFiles
+from multi_shadow_clone.execution.infrastructure.sqlite_store import SQLiteOperationStore
+from multi_shadow_clone.execution.presentation.codex_tools import CodexTools, PreparedCodexTools
 
 
 class CodexExecutionToolsTest(unittest.TestCase):
@@ -37,7 +37,7 @@ class CodexExecutionToolsTest(unittest.TestCase):
             reader=OwnedFiles(root,{'input.txt'})
             try:
                 gateway=CodexTools(binding,reservations,Executor(reservations,{'workspace':reader}))
-                call={'threadId':'thread','turnId':'turn','callId':'call_1','tool':'kagebunshin_read_files',
+                call={'threadId':'thread','turnId':'turn','callId':'call_1','tool':'multi_shadow_clone_read_files',
                     'arguments':{'files':[{'path':'input.txt','expected_hash':sha256(b'sample').hexdigest()}],'max_bytes':100}}
                 for changed in ({**call,'threadId':'foreign'},{**call,'turnId':'old'},
                                 {**call,'namespace':'shell'},{**call,'tool':'exec'},{**call,'tool':[]}):
@@ -65,7 +65,7 @@ class CodexExecutionToolsTest(unittest.TestCase):
                     allowed[0]=False
                     return [{'content':'observed before stop'}]
             gateway=CodexTools(binding,reservations,Executor(reservations,{'workspace':Reader()}),may_continue=lambda:allowed[0])
-            call={'threadId':'thread','turnId':'turn','callId':'call','tool':'kagebunshin_read_files',
+            call={'threadId':'thread','turnId':'turn','callId':'call','tool':'multi_shadow_clone_read_files',
                   'arguments':{'files':[{'path':'input.txt','expected_hash':'a'*64}],'max_bytes':100}}
             result=gateway.handle(call)
             self.assertFalse(result['success'])
@@ -84,7 +84,7 @@ class CodexExecutionToolsTest(unittest.TestCase):
             def unavailable():raise OSError('job unavailable')
             gateway=CodexTools(binding,reservations,Executor(reservations,{}),may_continue=unavailable)
             with self.assertRaises(Rejected):
-                gateway.handle({'threadId':'thread','turnId':'turn','callId':'call','tool':'kagebunshin_run_check','arguments':{'check_id':'test'}})
+                gateway.handle({'threadId':'thread','turnId':'turn','callId':'call','tool':'multi_shadow_clone_run_check','arguments':{'check_id':'test'}})
             saved=reservations.store.read('g')
             self.assertTrue(saved['stopped'])
             self.assertEqual(saved['calls'],{})

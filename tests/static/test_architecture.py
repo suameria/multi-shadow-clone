@@ -7,7 +7,7 @@ import unittest
 
 class ArchitectureTest(unittest.TestCase):
     def test_inward_dependencies(self):
-        root = Path(__file__).resolve().parents[2] / "src" / "kagebunshin"
+        root = Path(__file__).resolve().parents[2] / "src" / "multi_shadow_clone"
         domain_forbidden = {"os", "sys", "pathlib", "subprocess", "sqlite3", "socket", "urllib", "http", "requests", "time"}
         for path in root.rglob("*.py"):
             parts = set(path.relative_to(root).parts)

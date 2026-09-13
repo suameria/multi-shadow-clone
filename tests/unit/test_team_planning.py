@@ -1,10 +1,10 @@
 import json
 import unittest
 
-from kagebunshin.orchestration.application.engine import Engine
-from kagebunshin.orchestration.application.team import Team
-from kagebunshin.orchestration.domain.contracts import Limits
-from kagebunshin.orchestration.ports import Result
+from multi_shadow_clone.orchestration.application.engine import Engine
+from multi_shadow_clone.orchestration.application.team import Team
+from multi_shadow_clone.orchestration.domain.contracts import Limits
+from multi_shadow_clone.orchestration.ports import Result
 from tests.unit.fakes import MemoryStore, ROLES, ScriptedProvider, candidate
 
 
@@ -12,7 +12,7 @@ class PlanningTest(unittest.TestCase):
     def setup_team(self, proposal, limits=Limits()):
         def handler(request):
             if request.node_id == "mainPlanner":
-                return Result("completed", {**candidate(sources=["s1", "kagebunshinRoleIndex"]), "values": {"nodes": proposal}})
+                return Result("completed", {**candidate(sources=["s1", "multiShadowCloneRoleIndex"]), "values": {"nodes": proposal}})
             if request.stage == "audit":
                 return Result("completed", {"approved": True, "reason": "test evidence", "defects": []})
             return Result("completed", candidate(sources=["s1"]))
@@ -65,7 +65,7 @@ class PlanningTest(unittest.TestCase):
         def handle(request):
             calls.append(request)
             if len(calls) == 1:
-                return Result("completed", {**candidate(sources=["s1", "kagebunshinRoleIndex"]),
+                return Result("completed", {**candidate(sources=["s1", "multiShadowCloneRoleIndex"]),
                                             "values": {"nodes": [self.node(dependencies=["missing"])]}})
             return normal(request)
         self.provider.handler = handle
@@ -92,7 +92,7 @@ class PlanningTest(unittest.TestCase):
             calls.append(request)
             if len(calls) == 1:
                 nodes = [self.node(id="a"), self.node(id="b", dependencies=["a"]), self.node(id="c", dependencies=["b"])]
-                return Result("completed", {**candidate(sources=["s1", "kagebunshinRoleIndex"]), "values": {"nodes": nodes}})
+                return Result("completed", {**candidate(sources=["s1", "multiShadowCloneRoleIndex"]), "values": {"nodes": nodes}})
             return normal(request)
         self.provider.handler = handle
         result = self.team.advance(self.run_id)

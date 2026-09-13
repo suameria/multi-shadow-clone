@@ -4,8 +4,8 @@ import tempfile
 from threading import Barrier
 import unittest
 
-from kagebunshin.execution.domain.admission import Rejected
-from kagebunshin.execution.infrastructure.container_journal import ContainerJournal
+from multi_shadow_clone.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.infrastructure.container_journal import ContainerJournal
 
 
 class ContainerJournalTest(unittest.TestCase):

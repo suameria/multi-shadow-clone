@@ -1,9 +1,9 @@
 import unittest
 
-from kagebunshin.knowledge.application.library import Library
-from kagebunshin.orchestration.application.engine import Engine
-from kagebunshin.orchestration.domain.contracts import InvalidContract, Node, Plan
-from kagebunshin.orchestration.ports import Result
+from multi_shadow_clone.knowledge.application.library import Library
+from multi_shadow_clone.orchestration.application.engine import Engine
+from multi_shadow_clone.orchestration.domain.contracts import InvalidContract, Node, Plan
+from multi_shadow_clone.orchestration.ports import Result
 from tests.unit.test_knowledge import MemoryKnowledge
 from tests.unit.fakes import MemoryStore, ROLES, ScriptedProvider
 

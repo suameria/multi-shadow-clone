@@ -2,9 +2,9 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from kagebunshin.knowledge.application.library import Library
-from kagebunshin.knowledge.infrastructure.sqlite_store import SQLiteKnowledgeStore
-from kagebunshin.knowledge.ports import Conflict
+from multi_shadow_clone.knowledge.application.library import Library
+from multi_shadow_clone.knowledge.infrastructure.sqlite_store import SQLiteKnowledgeStore
+from multi_shadow_clone.knowledge.ports import Conflict
 
 
 class KnowledgeSQLiteTest(unittest.TestCase):

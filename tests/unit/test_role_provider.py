@@ -1,9 +1,9 @@
 import unittest
-from kagebunshin.orchestration.application.role_provider import RoleProvider
-from kagebunshin.orchestration.application.engine import Engine
-from kagebunshin.orchestration.domain.agent_settings import AgentSettings, ModelChoice
-from kagebunshin.orchestration.domain.contracts import Node, Plan
-from kagebunshin.orchestration.ports import ProviderBlocked
+from multi_shadow_clone.orchestration.application.role_provider import RoleProvider
+from multi_shadow_clone.orchestration.application.engine import Engine
+from multi_shadow_clone.orchestration.domain.agent_settings import AgentSettings, ModelChoice
+from multi_shadow_clone.orchestration.domain.contracts import Node, Plan
+from multi_shadow_clone.orchestration.ports import ProviderBlocked
 from tests.unit.fakes import MemoryStore, ScriptedProvider, ROLES
 
 

@@ -6,8 +6,8 @@ import sys
 import tempfile
 import unittest
 
-from kagebunshin.delivery.domain.model import InvalidDelivery
-from kagebunshin.delivery.infrastructure.lifecycle_files import CommandJournal, LifecycleFiles
+from multi_shadow_clone.delivery.domain.model import InvalidDelivery
+from multi_shadow_clone.delivery.infrastructure.lifecycle_files import CommandJournal, LifecycleFiles
 
 
 class LifecycleFilesTest(unittest.TestCase):

@@ -6,10 +6,10 @@ from pathlib import Path
 import time
 import unittest
 
-from kagebunshin.orchestration.application.engine import Engine
-from kagebunshin.orchestration.domain.contracts import Node, Plan
-from kagebunshin.orchestration.infrastructure.codex_provider import CodexProfile, CodexProvider, DISABLED
-from kagebunshin.orchestration.ports import ProviderBlocked, ProviderUnknown
+from multi_shadow_clone.orchestration.application.engine import Engine
+from multi_shadow_clone.orchestration.domain.contracts import Node, Plan
+from multi_shadow_clone.orchestration.infrastructure.codex_provider import CodexProfile, CodexProvider, DISABLED
+from multi_shadow_clone.orchestration.ports import ProviderBlocked, ProviderUnknown
 from tests.unit.fakes import MemoryStore, ROLES, candidate
 
 
@@ -46,7 +46,7 @@ class FakeRPC:
         self.history_pages = []
         self.item_pages = []
         self.history_thread = "thread1"
-        self.runtime = "kagebunshin/0.154.0-alpha.6.2 (test)"
+        self.runtime = "multi-shadow-clone/0.154.0-alpha.6.2 (test)"
         self.features = {k: False for k in DISABLED}
         self.features["unified_exec"] = True
 
@@ -106,9 +106,9 @@ class CodexProviderTest(unittest.TestCase):
         self.addCleanup(self.provider.close)
 
     def test_dynamic_call_is_dispatched_only_after_actual_turn_binding(self):
-        from kagebunshin.orchestration.ports import Request
+        from multi_shadow_clone.orchestration.ports import Request
         events=[]
-        definition={'type':'function','name':'kagebunshin_run_check','description':'Registered',
+        definition={'type':'function','name':'multi_shadow_clone_run_check','description':'Registered',
                     'inputSchema':{'type':'object'}}
         class Session:
             def definitions(self): return [definition]
@@ -121,7 +121,7 @@ class CodexProviderTest(unittest.TestCase):
         self.rpc.configure_dynamic_tools=lambda value:events.append(('declarations',value))
         self.rpc.respond_tool=lambda ident,result:events.append(('reply',ident,result['success']))
         self.rpc.on_start=lambda:self.rpc.notifications.append({'id':77,'method':'item/tool/call','params':{
-            'threadId':'thread1','turnId':'turn1','callId':'call1','tool':'kagebunshin_run_check','arguments':{}}})
+            'threadId':'thread1','turnId':'turn1','callId':'call1','tool':'multi_shadow_clone_run_check','arguments':{}}})
         result=self.provider.execute(Request('attempt','run','node','produce','R07','prompt','a'*64,tool_session=Session()))
         self.assertEqual(result.status,'completed')
         self.assertEqual(events[-3:],[('bind','thread1','turn1'),('handle','call1'),('reply',77,True)])
@@ -157,8 +157,8 @@ class CodexProviderTest(unittest.TestCase):
         self.assertFalse(turns[1]["outputSchema"]["properties"]["defects"]["items"]["additionalProperties"])
 
     def test_planner_schema_preserves_empty_gap_and_blocks_execution(self):
-        from kagebunshin.orchestration.application.team import Team
-        from kagebunshin.orchestration.domain.planning import ROLE_INDEX
+        from multi_shadow_clone.orchestration.application.team import Team
+        from multi_shadow_clone.orchestration.domain.planning import ROLE_INDEX
         self.rpc.items = [{"id": "plan", "type": "agentMessage", "phase": "final_answer", "text": json.dumps({
             "text": "No suitable role", "source_ids": [ROLE_INDEX], "limits": ["capability gap"], "values": {"nodes": []}})}]
         team = Team(self.engine)
@@ -264,7 +264,7 @@ class CodexProviderTest(unittest.TestCase):
         with self.assertRaises(ProviderBlocked): self.provider.preflight()
         self.assertNotIn("turn/start", self.rpc.methods)
         self.rpc.features["browser_use"] = False
-        self.rpc.runtime = "kagebunshin/999.0.0 (test)"
+        self.rpc.runtime = "multi-shadow-clone/999.0.0 (test)"
         with self.assertRaises(ProviderBlocked): self.provider.preflight()
         self.assertNotIn("turn/start", self.rpc.methods)
 
@@ -422,7 +422,7 @@ class CodexProviderTest(unittest.TestCase):
 
     def test_unsent_release_requires_exact_error_and_process_exit(self):
         from types import SimpleNamespace
-        from kagebunshin.orchestration.infrastructure.codex_rpc import RPCRejected
+        from multi_shadow_clone.orchestration.infrastructure.codex_rpc import RPCRejected
         exact = 'thread thread1 is not materialized yet; thread/turns/list is unavailable before first user message'
         for code, detail, poll, expected in [(-32600, exact, 0, 'released_unmaterialized'),
                                             (-32600, 'thread not loaded', 0, None),

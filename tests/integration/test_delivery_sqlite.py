@@ -7,10 +7,10 @@ import tempfile
 import threading
 import unittest
 
-from kagebunshin.delivery.application.outbox import Outbox
-from kagebunshin.delivery.infrastructure.sqlite_store import SQLiteDeliveryStore
-from kagebunshin.delivery.ports import Conflict
-from kagebunshin.delivery.domain.model import InvalidDelivery
+from multi_shadow_clone.delivery.application.outbox import Outbox
+from multi_shadow_clone.delivery.infrastructure.sqlite_store import SQLiteDeliveryStore
+from multi_shadow_clone.delivery.ports import Conflict
+from multi_shadow_clone.delivery.domain.model import InvalidDelivery
 from tests.unit.test_delivery_batch import BatchAccepted, request
 from tests.unit.test_delivery import AcceptedFixture, FakeDestination
 

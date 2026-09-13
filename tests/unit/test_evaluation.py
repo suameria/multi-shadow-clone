@@ -3,13 +3,13 @@ from contextlib import redirect_stdout, redirect_stderr
 import io
 import unittest
 
-from kagebunshin.evaluation.application.study import Study
-from kagebunshin.evaluation.application.batch import Batch
-from kagebunshin.orchestration.application.engine import Engine
-from kagebunshin.orchestration.application.evaluation import EvaluationJobs
+from multi_shadow_clone.evaluation.application.study import Study
+from multi_shadow_clone.evaluation.application.batch import Batch
+from multi_shadow_clone.orchestration.application.engine import Engine
+from multi_shadow_clone.orchestration.application.evaluation import EvaluationJobs
 from tests.unit.fakes import MemoryStore, ScriptedProvider, ROLES
-from kagebunshin.evaluation.domain.scoring import candidate_pack, score
-from kagebunshin.evaluation.presentation.cli import main as evaluation_cli
+from multi_shadow_clone.evaluation.domain.scoring import candidate_pack, score
+from multi_shadow_clone.evaluation.presentation.cli import main as evaluation_cli
 
 
 CASE = {"id": "fixture", "input": {"request": "compute", "numbers": "[2,6]"},

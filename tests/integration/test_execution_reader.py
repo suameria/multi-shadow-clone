@@ -2,11 +2,11 @@ from hashlib import sha256
 from pathlib import Path
 import tempfile
 import unittest
-from kagebunshin.execution.application.executor import Executor
-from kagebunshin.execution.application.reservations import Reservations
-from kagebunshin.execution.domain.admission import Binding, Grant, Rejected
-from kagebunshin.execution.infrastructure.owned_files import OwnedFiles
-from kagebunshin.execution.infrastructure.sqlite_store import SQLiteOperationStore
+from multi_shadow_clone.execution.application.executor import Executor
+from multi_shadow_clone.execution.application.reservations import Reservations
+from multi_shadow_clone.execution.domain.admission import Binding, Grant, Rejected
+from multi_shadow_clone.execution.infrastructure.owned_files import OwnedFiles
+from multi_shadow_clone.execution.infrastructure.sqlite_store import SQLiteOperationStore
 
 
 class ExecutionReaderTest(unittest.TestCase):

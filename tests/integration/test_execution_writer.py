@@ -4,26 +4,26 @@ import signal
 import subprocess
 import sys
 import unittest
-from kagebunshin.execution.application.executor import Executor
-from kagebunshin.execution.application.reservations import Reservations
-from kagebunshin.execution.domain.admission import Binding, Grant, Rejected
-from kagebunshin.execution.infrastructure.owned_files import OwnedFiles
-from kagebunshin.execution.infrastructure.sqlite_store import SQLiteOperationStore
+from multi_shadow_clone.execution.application.executor import Executor
+from multi_shadow_clone.execution.application.reservations import Reservations
+from multi_shadow_clone.execution.domain.admission import Binding, Grant, Rejected
+from multi_shadow_clone.execution.infrastructure.owned_files import OwnedFiles
+from multi_shadow_clone.execution.infrastructure.sqlite_store import SQLiteOperationStore
 
 
 class ExecutionWriterTest(unittest.TestCase):
     def test_sigkill_after_durable_write_recovers_without_another_effect(self):
-        from kagebunshin.execution.infrastructure.write_journal import WriteJournal, JournaledWriter
+        from multi_shadow_clone.execution.infrastructure.write_journal import WriteJournal, JournaledWriter
         child = '''
 import os, signal, sys
 from pathlib import Path
 sys.path.insert(0, sys.argv[1])
-from kagebunshin.execution.application.executor import Executor
-from kagebunshin.execution.application.reservations import Reservations
-from kagebunshin.execution.domain.admission import Binding
-from kagebunshin.execution.infrastructure.sqlite_store import SQLiteOperationStore
-from kagebunshin.execution.infrastructure.owned_files import OwnedFiles
-from kagebunshin.execution.infrastructure.write_journal import WriteJournal, JournaledWriter
+from multi_shadow_clone.execution.application.executor import Executor
+from multi_shadow_clone.execution.application.reservations import Reservations
+from multi_shadow_clone.execution.domain.admission import Binding
+from multi_shadow_clone.execution.infrastructure.sqlite_store import SQLiteOperationStore
+from multi_shadow_clone.execution.infrastructure.owned_files import OwnedFiles
+from multi_shadow_clone.execution.infrastructure.write_journal import WriteJournal, JournaledWriter
 root = Path(sys.argv[2])
 reservations = Reservations(SQLiteOperationStore(root/'operations.sqlite3'), lambda:10)
 binding = Binding('g','r','n','a','t','turn',0,'w','c'*64)
@@ -62,7 +62,7 @@ Executor(reservations, {}, writers={'w':writer}).execute(binding, 'write')
                     self.assertEqual((root/'output').stat().st_ino, inode)
                     self.assertEqual((root/'output').read_text(), 'generated')
                     self.assertEqual(restarted.store.read('g')['grant']['remaining'], 0)
-                    self.assertEqual(list(root.glob('.kagebunshin-*')), [])
+                    self.assertEqual(list(root.glob('.multi-shadow-clone-*')), [])
                 finally:
                     files.close()
 
@@ -101,7 +101,7 @@ Executor(reservations, {}, writers={'w':writer}).execute(binding, 'write')
             finally: writer.close()
 
     def test_durable_write_receipt_recovers_without_rewrite_and_respects_stop(self):
-        from kagebunshin.execution.infrastructure.write_journal import WriteJournal, JournaledWriter
+        from multi_shadow_clone.execution.infrastructure.write_journal import WriteJournal, JournaledWriter
         for stop in (False,True):
             with self.subTest(stop=stop), tempfile.TemporaryDirectory() as directory:
                 root = Path(directory).resolve()

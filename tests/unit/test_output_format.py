@@ -1,10 +1,10 @@
 from dataclasses import asdict, replace
 import unittest
 
-from kagebunshin.orchestration.domain.contracts import Node, Plan, plan_from_dict, InvalidContract
-from kagebunshin.orchestration.domain.validation import check
-from kagebunshin.orchestration.domain.output_format import response_schema
-from kagebunshin.orchestration.application.prompts import binding, context
+from multi_shadow_clone.orchestration.domain.contracts import Node, Plan, plan_from_dict, InvalidContract
+from multi_shadow_clone.orchestration.domain.validation import check
+from multi_shadow_clone.orchestration.domain.output_format import response_schema
+from multi_shadow_clone.orchestration.application.prompts import binding, context
 from tests.unit.fakes import ROLES
 
 

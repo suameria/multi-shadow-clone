@@ -1,8 +1,8 @@
 from dataclasses import replace
 import unittest
 
-from kagebunshin.orchestration.domain.contracts import InvalidContract, Limits, Node, Plan, Rule
-from kagebunshin.orchestration.domain.validation import audit_defects, check
+from multi_shadow_clone.orchestration.domain.contracts import InvalidContract, Limits, Node, Plan, Rule
+from multi_shadow_clone.orchestration.domain.validation import audit_defects, check
 from tests.unit.fakes import ROLES, candidate
 
 

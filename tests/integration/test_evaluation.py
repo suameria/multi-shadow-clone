@@ -9,9 +9,9 @@ import sys
 from threading import Barrier
 import unittest
 
-from kagebunshin.evaluation.application.batch import Batch
-from kagebunshin.evaluation.infrastructure.sqlite_store import SQLiteStudyStore
-from kagebunshin.evaluation.infrastructure.verification import VerifiedStudy
+from multi_shadow_clone.evaluation.application.batch import Batch
+from multi_shadow_clone.evaluation.infrastructure.sqlite_store import SQLiteStudyStore
+from multi_shadow_clone.evaluation.infrastructure.verification import VerifiedStudy
 
 
 class StudySQLiteTest(unittest.TestCase):
@@ -43,7 +43,7 @@ class StudyReceiptTest(unittest.TestCase):
     def test_role_probe_requires_the_authored_role_contract(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder); case, path = self.prepare(root)
-            role_file = root / "src/kagebunshin/orchestration/roles.json"
+            role_file = root / "src/multi_shadow_clone/orchestration/roles.json"
             role_file.parent.mkdir(parents=True)
             role_file.write_text(json.dumps([{"id": "R19", "version": 3}]))
             case.write_text(json.dumps({"scope": "role probe", "cases": [{"role_id": "R19", "role_contract_sha256": "old"}]}))
@@ -58,12 +58,12 @@ class StudyReceiptTest(unittest.TestCase):
             root = Path(folder)
             project = Path(__file__).resolve().parents[2]
             shutil.copytree(project / "src", root / "src", ignore=shutil.ignore_patterns("__pycache__"))
-            (root / "tools/kagebunshin").mkdir(parents=True)
-            shutil.copyfile(project / "tools/kagebunshin/evaluate.py", root / "tools/kagebunshin/evaluate.py")
+            (root / "tools/multi-shadow-clone").mkdir(parents=True)
+            shutil.copyfile(project / "tools/multi-shadow-clone/evaluate.py", root / "tools/multi-shadow-clone/evaluate.py")
             old = SQLiteStudyStore(root / "runtime/evaluation/public-pilot-v1/study.sqlite3")
             old.reserve("E01:single", {"state": "failed", "turns": 1})
             def status(study):
-                result = subprocess.run([sys.executable, "-I", "tools/kagebunshin/evaluate.py", "--study", study, "status"],
+                result = subprocess.run([sys.executable, "-I", "tools/multi-shadow-clone/evaluate.py", "--study", study, "status"],
                                         cwd=root, capture_output=True, text=True, timeout=15, check=True)
                 return json.loads(result.stdout)
             fresh = status("astra-low-v1")

@@ -2,10 +2,10 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from kagebunshin.execution.domain.admission import Rejected
-from kagebunshin.execution.domain.checks import NodeCheck
-from kagebunshin.execution.infrastructure.container_journal import ContainerJournal
-from kagebunshin.execution.infrastructure.node_checks import NodeChecks, fingerprint
+from multi_shadow_clone.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.domain.checks import NodeCheck
+from multi_shadow_clone.execution.infrastructure.container_journal import ContainerJournal
+from multi_shadow_clone.execution.infrastructure.node_checks import NodeChecks, fingerprint
 
 
 class NodeCheckRecoveryTest(unittest.TestCase):

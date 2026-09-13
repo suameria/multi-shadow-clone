@@ -2,10 +2,10 @@ from hashlib import sha256
 from pathlib import Path
 import tempfile
 import unittest
-from kagebunshin.execution.application.bind_checks import bind_node_checks
-from kagebunshin.execution.domain.checks import NodeCheckTemplate
-from kagebunshin.execution.domain.admission import Rejected
-from kagebunshin.execution.infrastructure.owned_files import OwnedFiles
+from multi_shadow_clone.execution.application.bind_checks import bind_node_checks
+from multi_shadow_clone.execution.domain.checks import NodeCheckTemplate
+from multi_shadow_clone.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.infrastructure.owned_files import OwnedFiles
 
 class BindChecksTest(unittest.TestCase):
     def test_changed_source_rebinds_but_changed_host_test_rejects(self):
@@ -42,8 +42,8 @@ class BindChecksTest(unittest.TestCase):
             finally:files.close()
 
     def test_saved_attempt_recovery_never_recaptures_changed_sources(self):
-        from kagebunshin.execution.application.bind_checks import persisted_node_checks
-        from kagebunshin.execution.infrastructure.check_bindings import CheckBindings
+        from multi_shadow_clone.execution.application.bind_checks import persisted_node_checks
+        from multi_shadow_clone.execution.infrastructure.check_bindings import CheckBindings
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory).resolve()
             (root/'check.js').write_text('test')
@@ -59,8 +59,8 @@ class BindChecksTest(unittest.TestCase):
             finally:files.close()
 
     def test_attempt_registry_builds_distinct_immutable_checker_inputs(self):
-        from kagebunshin.execution.application.attempt_checks import AttemptChecks
-        from kagebunshin.execution.infrastructure.check_bindings import CheckBindings
+        from multi_shadow_clone.execution.application.attempt_checks import AttemptChecks
+        from multi_shadow_clone.execution.infrastructure.check_bindings import CheckBindings
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory).resolve()
             (root/'check.js').write_text('test');(root/'code.js').write_text('before')
@@ -79,8 +79,8 @@ class BindChecksTest(unittest.TestCase):
             finally:files.close()
 
     def test_restore_missing_attempt_never_observes_current_files(self):
-        from kagebunshin.execution.application.attempt_checks import AttemptChecks
-        from kagebunshin.execution.infrastructure.check_bindings import CheckBindings
+        from multi_shadow_clone.execution.application.attempt_checks import AttemptChecks
+        from multi_shadow_clone.execution.infrastructure.check_bindings import CheckBindings
         with tempfile.TemporaryDirectory() as directory:
             template=NodeCheckTemplate('test','check.js',(('check.js','a'*64),),('code.js',),2,1000,1000)
             registry=AttemptChecks([template],None,CheckBindings(Path(directory)/'bindings.sqlite3'),lambda value:value,'b'*64)

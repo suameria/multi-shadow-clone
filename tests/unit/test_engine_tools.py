@@ -1,7 +1,7 @@
 import unittest
 from copy import deepcopy
-from kagebunshin.orchestration.application.engine import Engine
-from kagebunshin.orchestration.domain.contracts import Plan, Node, InvalidContract
+from multi_shadow_clone.orchestration.application.engine import Engine
+from multi_shadow_clone.orchestration.domain.contracts import Plan, Node, InvalidContract
 from tests.unit.fakes import MemoryStore, ScriptedProvider, ROLES
 
 class Session:
@@ -127,7 +127,7 @@ class EngineToolsTest(unittest.TestCase):
         self.assertEqual(len(self.provider.requests),2)
 
     def test_reconcile_recovers_check_without_new_model_dispatch(self):
-        from kagebunshin.orchestration.ports import Result
+        from multi_shadow_clone.orchestration.ports import Result
         from tests.unit.fakes import candidate
         scope=self.policy['scopes'][0]
         scope.update(operations=['run_check'],paths=[],checks=['required'],required_checks=['required'])
@@ -143,7 +143,7 @@ class EngineToolsTest(unittest.TestCase):
         self.assertEqual(len(self.provider.requests),1)
 
     def test_tool_failed_terminal_tasks_are_eligible_for_archive(self):
-        from kagebunshin.orchestration.ports import Result
+        from multi_shadow_clone.orchestration.ports import Result
         from tests.unit.fakes import candidate
         scope=self.policy['scopes'][0]
         scope.update(operations=['run_check'],paths=[],checks=['required'],required_checks=['required'])
@@ -180,7 +180,7 @@ class EngineToolsTest(unittest.TestCase):
         with self.assertRaises(InvalidContract):self.engine.resume(job)
 
     def test_retirement_refuses_unknown_provider_attempt(self):
-        from kagebunshin.orchestration.ports import Result
+        from multi_shadow_clone.orchestration.ports import Result
         self.provider.handler=lambda request:Result('unknown')
         job=self.engine.create(self.plan,execution_policy=self.policy)
         self.engine.step(job)

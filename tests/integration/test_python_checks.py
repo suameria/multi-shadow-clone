@@ -8,13 +8,13 @@ import unittest
 from concurrent.futures import ThreadPoolExecutor
 from unittest.mock import patch
 
-from kagebunshin.execution.domain.admission import Rejected, Binding, Grant
-from kagebunshin.execution.application.executor import Executor
-from kagebunshin.execution.application.reservations import Reservations
-from kagebunshin.execution.infrastructure.sqlite_store import SQLiteOperationStore
-from kagebunshin.execution.domain.checks import PythonCheck
-from kagebunshin.execution.infrastructure.owned_files import OwnedFiles
-from kagebunshin.execution.infrastructure.python_checks import PythonChecks
+from multi_shadow_clone.execution.domain.admission import Rejected, Binding, Grant
+from multi_shadow_clone.execution.application.executor import Executor
+from multi_shadow_clone.execution.application.reservations import Reservations
+from multi_shadow_clone.execution.infrastructure.sqlite_store import SQLiteOperationStore
+from multi_shadow_clone.execution.domain.checks import PythonCheck
+from multi_shadow_clone.execution.infrastructure.owned_files import OwnedFiles
+from multi_shadow_clone.execution.infrastructure.python_checks import PythonChecks
 
 
 @unittest.skipUnless(sys.platform == 'darwin', 'macOS registered check integration')
@@ -29,7 +29,7 @@ class PythonChecksTest(unittest.TestCase):
             source, snapshots = root/'source', root/'snapshots'
             source.mkdir()
             snapshots.mkdir()
-            content = "from pathlib import Path\nPath('.kagebunshin-scratch/ready').write_text('ready')\nwhile True: pass"
+            content = "from pathlib import Path\nPath('.multi-shadow-clone-scratch/ready').write_text('ready')\nwhile True: pass"
             (source/'check.py').write_text(content)
             definition = PythonCheck('check','check.py',(('check.py',sha256(content.encode()).hexdigest()),),5,4096,4096)
             files = OwnedFiles(source,{'check.py'})
@@ -46,7 +46,7 @@ class PythonChecksTest(unittest.TestCase):
                 def stop_after_process_marker():
                     deadline = time.monotonic()+4
                     while time.monotonic() < deadline:
-                        if list(snapshots.glob('*/.kagebunshin-scratch/ready')):
+                        if list(snapshots.glob('*/.multi-shadow-clone-scratch/ready')):
                             stopper.stop('g')
                             return
                         time.sleep(.01)

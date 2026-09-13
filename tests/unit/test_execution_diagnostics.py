@@ -1,5 +1,5 @@
 import unittest
-from kagebunshin.execution.domain.diagnostics import diagnostic
+from multi_shadow_clone.execution.domain.diagnostics import diagnostic
 
 class DiagnosticsTest(unittest.TestCase):
     def test_unicode_total_budget_and_untrusted_failure_are_preserved(self):

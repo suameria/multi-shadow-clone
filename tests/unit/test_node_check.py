@@ -1,9 +1,9 @@
 import unittest
 
-from kagebunshin.execution.domain.admission import Rejected
-from kagebunshin.execution.domain.checks import NodeCheck, PythonCheck
-from kagebunshin.execution.infrastructure.node_inputs import node_arguments
-from kagebunshin.execution.infrastructure.python_checks import PythonChecks
+from multi_shadow_clone.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.domain.checks import NodeCheck, PythonCheck
+from multi_shadow_clone.execution.infrastructure.node_inputs import node_arguments
+from multi_shadow_clone.execution.infrastructure.python_checks import PythonChecks
 
 
 class NodeCheckTest(unittest.TestCase):
@@ -21,7 +21,7 @@ class NodeCheckTest(unittest.TestCase):
             with self.assertRaises(Rejected): node_arguments(inputs,entry)
 
     def test_template_pins_test_code_and_changes_only_explicit_source_hash(self):
-        from kagebunshin.execution.domain.checks import NodeCheckTemplate
+        from multi_shadow_clone.execution.domain.checks import NodeCheckTemplate
         template=NodeCheckTemplate('sum','check.js',(('check.js','a'*64),),('calc.js',),2,1024,1024)
         observed={'check.js':{'exists':True,'sha256':'a'*64,'bytes':10},'calc.js':{'exists':True,'sha256':'b'*64,'bytes':10}}
         first=template.bind(observed)
@@ -35,7 +35,7 @@ class NodeCheckTest(unittest.TestCase):
         with self.assertRaises(Rejected):template.bind(observed)
 
     def test_template_rejects_mutable_entrypoint_missing_and_extra_inputs(self):
-        from kagebunshin.execution.domain.checks import NodeCheckTemplate
+        from multi_shadow_clone.execution.domain.checks import NodeCheckTemplate
         template=NodeCheckTemplate('sum','check.js',(),('check.js',),2,1024,1024)
         with self.assertRaises(Rejected):template.validate()
         template=NodeCheckTemplate('sum','check.js',(('check.js','a'*64),),('calc.js',),2,1024,1024)

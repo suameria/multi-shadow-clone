@@ -3,12 +3,12 @@ from hashlib import sha256
 import tempfile
 import unittest
 
-from kagebunshin.bootstrap import owned_job_sessions
-from kagebunshin.execution.presentation.job_sessions import fingerprint
-from kagebunshin.orchestration.application.engine import Engine
-from kagebunshin.orchestration.domain.contracts import Node, Plan
-from kagebunshin.orchestration.infrastructure.sqlite_store import SQLiteRunStore
-from kagebunshin.orchestration.ports import Result
+from multi_shadow_clone.bootstrap import owned_job_sessions
+from multi_shadow_clone.execution.presentation.job_sessions import fingerprint
+from multi_shadow_clone.orchestration.application.engine import Engine
+from multi_shadow_clone.orchestration.domain.contracts import Node, Plan
+from multi_shadow_clone.orchestration.infrastructure.sqlite_store import SQLiteRunStore
+from multi_shadow_clone.orchestration.ports import Result
 from tests.unit.fakes import ROLES, ScriptedProvider, candidate
 
 
@@ -30,7 +30,7 @@ class EngineWorkspaceTest(unittest.TestCase):
                 request.progress('thread','turn')
                 session.bind('thread','turn')
                 result=session.handle(dict(threadId='thread',turnId='turn',callId='write',
-                    tool='kagebunshin_apply_changes',arguments=dict(path='a.js',
+                    tool='multi_shadow_clone_apply_changes',arguments=dict(path='a.js',
                     before_hash=sha256(b'before').hexdigest(),content='after')))
                 self.assertTrue(result['success'])
                 return Result('completed',candidate())
@@ -68,7 +68,7 @@ class EngineWorkspaceTest(unittest.TestCase):
 
     def test_prepare_policy_binds_only_host_runtime_without_creating_job_or_lease(self):
         from copy import deepcopy
-        from kagebunshin.orchestration.domain.contracts import InvalidContract
+        from multi_shadow_clone.orchestration.domain.contracts import InvalidContract
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory).resolve();workspace=root/'workspace';workspace.mkdir()
             with owned_job_sessions(data_dir=root/'state',workspace_id='owned',workspace_root=workspace,paths=['a.js'],lease_path=root/'leases.sqlite3') as sessions:

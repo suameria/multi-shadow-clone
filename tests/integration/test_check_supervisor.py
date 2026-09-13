@@ -9,9 +9,9 @@ import tempfile
 import time
 import unittest
 
-from kagebunshin.execution.infrastructure.check_supervisor import supervisor_argv
-from kagebunshin.execution.infrastructure.macos_sandbox import python_check_policy
-from kagebunshin.execution.infrastructure.check_journal import CheckJournal
+from multi_shadow_clone.execution.infrastructure.check_supervisor import supervisor_argv
+from multi_shadow_clone.execution.infrastructure.macos_sandbox import python_check_policy
+from multi_shadow_clone.execution.infrastructure.check_journal import CheckJournal
 
 
 @unittest.skipUnless(sys.platform == 'darwin', 'macOS isolated supervisor integration')

@@ -2,8 +2,8 @@ from contextlib import nullcontext
 from copy import deepcopy
 import unittest
 
-from kagebunshin.delivery.application.environment import EnvironmentLifecycle
-from kagebunshin.delivery.domain.model import InvalidDelivery
+from multi_shadow_clone.delivery.application.environment import EnvironmentLifecycle
+from multi_shadow_clone.delivery.domain.model import InvalidDelivery
 
 
 class MemoryLifecycle:
@@ -60,7 +60,7 @@ class EnvironmentTest(unittest.TestCase):
     def test_generated_task_never_begins_a_component_with_digits(self):
         env = EnvironmentLifecycle(self.store, self.repo, identifier=lambda: "01234567" + "a" * 24)
         state = env.start()
-        self.assertEqual(state["task"], "kagebunshin-local-ghijklmn")
+        self.assertEqual(state["task"], "multi-shadow-clone-local-ghijklmn")
         self.assertFalse(any(part[0].isdigit() for part in state["task"].split("-")))
 
     def test_proven_precreation_rejection_retires_only_empty_reservation(self):

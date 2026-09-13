@@ -4,13 +4,13 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
-from kagebunshin.orchestration.infrastructure.codex_catalog import TextOnlyCatalog
-from kagebunshin.orchestration.ports import ProviderBlocked
+from multi_shadow_clone.orchestration.infrastructure.codex_catalog import TextOnlyCatalog
+from multi_shadow_clone.orchestration.ports import ProviderBlocked
 
 
 class CatalogFileTest(unittest.TestCase):
     def test_changed_deleted_or_symlinked_catalog_is_rejected(self):
-        with TemporaryDirectory(prefix="kagebunshin-catalog-test-") as directory:
+        with TemporaryDirectory(prefix="multi-shadow-clone-catalog-test-") as directory:
             path = Path(directory) / "catalog.json"
             data = b'{"models": []}\n'
             path.write_bytes(data)

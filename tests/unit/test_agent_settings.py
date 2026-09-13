@@ -1,8 +1,8 @@
 from copy import deepcopy
 import unittest
 
-from kagebunshin.orchestration.domain.agent_settings import AgentSettings
-from kagebunshin.orchestration.domain.contracts import InvalidContract
+from multi_shadow_clone.orchestration.domain.agent_settings import AgentSettings
+from multi_shadow_clone.orchestration.domain.contracts import InvalidContract
 
 
 class AgentSettingsTest(unittest.TestCase):

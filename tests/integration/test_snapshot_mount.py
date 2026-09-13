@@ -4,9 +4,9 @@ import json
 from pathlib import Path
 import unittest
 
-from kagebunshin.execution.domain.admission import Rejected
-from kagebunshin.execution.infrastructure.check_workspace import check_workspace
-from kagebunshin.execution.infrastructure.docker_sandbox import NodeContainer, SnapshotMount
+from multi_shadow_clone.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.infrastructure.check_workspace import check_workspace
+from multi_shadow_clone.execution.infrastructure.docker_sandbox import NodeContainer, SnapshotMount
 
 
 class SnapshotMountTest(unittest.TestCase):
@@ -31,7 +31,7 @@ class SnapshotMountTest(unittest.TestCase):
             changed=deepcopy(observed)
             changed['HostConfig']['Mounts'][0]['ReadOnly']=1
             with self.assertRaises(Rejected): request.verify_created('b'*64,changed)
-            marker=snapshot.root/'.kagebunshin-owner'
+            marker=snapshot.root/'.multi-shadow-clone-owner'
             marker.chmod(0o600)
             marker.write_text('replaced')
             with self.assertRaises(Rejected): request.create_arguments()

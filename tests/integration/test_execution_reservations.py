@@ -1,9 +1,9 @@
 import tempfile
 from pathlib import Path
 import unittest
-from kagebunshin.execution.domain.admission import Binding, Grant, Rejected
-from kagebunshin.execution.application.reservations import Reservations
-from kagebunshin.execution.infrastructure.sqlite_store import SQLiteOperationStore
+from multi_shadow_clone.execution.domain.admission import Binding, Grant, Rejected
+from multi_shadow_clone.execution.application.reservations import Reservations
+from multi_shadow_clone.execution.infrastructure.sqlite_store import SQLiteOperationStore
 
 
 class ReservationTest(unittest.TestCase):

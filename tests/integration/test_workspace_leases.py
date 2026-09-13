@@ -1,8 +1,8 @@
 from pathlib import Path
 import tempfile
 import unittest
-from kagebunshin.execution.infrastructure.workspace_leases import WorkspaceLeases
-from kagebunshin.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.infrastructure.workspace_leases import WorkspaceLeases
+from multi_shadow_clone.execution.domain.admission import Rejected
 
 class WorkspaceLeasesTest(unittest.TestCase):
     def test_restart_preserves_owner_and_stale_release_cannot_affect_next_job(self):

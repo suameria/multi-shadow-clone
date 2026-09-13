@@ -11,8 +11,8 @@ import tempfile
 import threading
 import unittest
 
-from kagebunshin.orchestration.infrastructure.operator_jobs import OperatorJobs
-from kagebunshin.orchestration.infrastructure.operator_server import OperatorServer
+from multi_shadow_clone.orchestration.infrastructure.operator_jobs import OperatorJobs
+from multi_shadow_clone.orchestration.infrastructure.operator_server import OperatorServer
 
 
 class OperatorIntegrationTest(unittest.TestCase):
@@ -22,7 +22,7 @@ class OperatorIntegrationTest(unittest.TestCase):
             def snapshot(self): return {"roles": [], "jobs": []}
             def settings_snapshot(self): return {"available": True, "revision": 1}
             def save_settings(self, value, expected_revision):
-                from kagebunshin.orchestration.ports import Conflict
+                from multi_shadow_clone.orchestration.ports import Conflict
                 if expected_revision != 1: raise Conflict("stale settings")
                 self.calls.append(value)
                 return {"revision": 2}
@@ -50,7 +50,7 @@ class OperatorIntegrationTest(unittest.TestCase):
             self.assertEqual(call("GET", "/../runtime/secret")[0], 404)
             body = json.dumps({"operation": "stop", "run_id": "synthetic-id"})
             headers = {"Content-Type": "application/json", "Origin": server.origin,
-                       "X-Kagebunshin-CSRF": server.csrf}
+                       "X-Multi-Shadow-Clone-CSRF": server.csrf}
             self.assertEqual(call("POST", "/api/action", body)[0], 403)
             wrong = {**headers, "Origin": "https://elsewhere.invalid"}
             self.assertEqual(call("POST", "/api/action", body, **wrong)[0], 403)
@@ -104,8 +104,8 @@ from contextlib import contextmanager
 from pathlib import Path
 import sys
 sys.path.insert(0, sys.argv[1])
-from kagebunshin.orchestration.presentation.operator_cli import main
-from kagebunshin.orchestration.infrastructure.operator_server import OperatorServer
+from multi_shadow_clone.orchestration.presentation.operator_cli import main
+from multi_shadow_clone.orchestration.infrastructure.operator_server import OperatorServer
 marker = Path(sys.argv[2])
 @contextmanager
 def scope(mode, data_dir=None, workspace_config=None):

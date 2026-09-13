@@ -1,7 +1,7 @@
 import unittest
 
-from kagebunshin.execution.domain.admission import Rejected
-from kagebunshin.execution.domain.container_lifecycle import transition
+from multi_shadow_clone.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.domain.container_lifecycle import transition
 
 
 class ContainerLifecycleTest(unittest.TestCase):

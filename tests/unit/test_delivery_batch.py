@@ -2,8 +2,8 @@ from copy import deepcopy
 from dataclasses import replace
 import unittest
 
-from kagebunshin.delivery.application.outbox import Outbox
-from kagebunshin.delivery.domain.model import InvalidDelivery
+from multi_shadow_clone.delivery.application.outbox import Outbox
+from multi_shadow_clone.delivery.domain.model import InvalidDelivery
 from tests.unit.test_delivery import AcceptedFixture, FakeDestination, MemoryDelivery
 
 

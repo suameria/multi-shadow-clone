@@ -3,9 +3,9 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from kagebunshin.execution.infrastructure.supervised_check import run_supervised_check
-from kagebunshin.execution.infrastructure.check_journal import CheckJournal
-from kagebunshin.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.infrastructure.supervised_check import run_supervised_check
+from multi_shadow_clone.execution.infrastructure.check_journal import CheckJournal
+from multi_shadow_clone.execution.domain.admission import Rejected
 
 
 class SupervisedCheckTest(unittest.TestCase):

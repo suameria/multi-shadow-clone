@@ -1,11 +1,11 @@
 import unittest
-from kagebunshin.orchestration.domain.usage_display import weekly_usage
+from multi_shadow_clone.orchestration.domain.usage_display import weekly_usage
 
 
 class UsageDisplayTests(unittest.TestCase):
     def test_new_profile_defaults_to_requested_luna_low(self):
         from pathlib import Path
-        from kagebunshin.orchestration.infrastructure.codex_provider import CodexProfile
+        from multi_shadow_clone.orchestration.infrastructure.codex_provider import CodexProfile
         profile = CodexProfile(Path("/fake/codex"), Path("/fake/workspace"))
         self.assertEqual((profile.model, profile.effort, profile.service_tier), ("gpt-5.6-luna", "low", "default"))
 

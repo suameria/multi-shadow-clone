@@ -2,10 +2,10 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
-from kagebunshin.orchestration.application.settings import Settings
-from kagebunshin.orchestration.infrastructure.settings_store import SQLiteSettingsStore
-from kagebunshin.orchestration.ports import Conflict
-from kagebunshin.orchestration.domain.contracts import InvalidContract
+from multi_shadow_clone.orchestration.application.settings import Settings
+from multi_shadow_clone.orchestration.infrastructure.settings_store import SQLiteSettingsStore
+from multi_shadow_clone.orchestration.ports import Conflict
+from multi_shadow_clone.orchestration.domain.contracts import InvalidContract
 
 
 class SettingsStoreTest(unittest.TestCase):

@@ -4,10 +4,10 @@ import tempfile
 import threading
 import unittest
 
-from kagebunshin.orchestration.application.engine import Engine
-from kagebunshin.orchestration.domain.contracts import Node, Plan
-from kagebunshin.orchestration.infrastructure.sqlite_store import SQLiteRunStore
-from kagebunshin.orchestration.ports import Conflict, Result
+from multi_shadow_clone.orchestration.application.engine import Engine
+from multi_shadow_clone.orchestration.domain.contracts import Node, Plan
+from multi_shadow_clone.orchestration.infrastructure.sqlite_store import SQLiteRunStore
+from multi_shadow_clone.orchestration.ports import Conflict, Result
 from tests.unit.fakes import ROLES, ScriptedProvider, candidate
 
 
@@ -98,8 +98,8 @@ class SQLiteIntegrationTest(unittest.TestCase):
         self.assertEqual(self.engine.run_until_idle(jobs[2])["state"], "completed")
 
     def test_repairs_and_independent_audits_share_budget_under_real_worker_race(self):
-        from kagebunshin.orchestration.domain.contracts import Limits, Rule
-        from kagebunshin.orchestration.infrastructure.workers import Workers
+        from multi_shadow_clone.orchestration.domain.contracts import Limits, Rule
+        from multi_shadow_clone.orchestration.infrastructure.workers import Workers
         counts = {}
         def handler(request):
             if request.stage == "audit":

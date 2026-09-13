@@ -2,8 +2,8 @@ from contextlib import nullcontext
 from copy import deepcopy
 import unittest
 
-from kagebunshin.delivery.domain.model import InvalidDelivery, fingerprint
-from kagebunshin.delivery.infrastructure.granskypolis import GranSkypolisDestination, NoRedirect
+from multi_shadow_clone.delivery.domain.model import InvalidDelivery, fingerprint
+from multi_shadow_clone.delivery.infrastructure.granskypolis import GranSkypolisDestination, NoRedirect
 
 
 class FakeLifecycle:
@@ -44,7 +44,7 @@ class GranSkypolisContractTest(unittest.TestCase):
             return {"data": {"id": "fixture-post"}}
         destination._request = request
         payload = {"kind": "tweet", "visibility": "private", "body": "synthetic fixture"}
-        key = "kagebunshin-" + "a" * 64
+        key = "multi-shadow-clone-" + "a" * 64
         receipt = destination.send(payload, key)
         self.assertEqual(receipt.payload_hash, fingerprint(payload))
         self.assertEqual(requests[0], ("POST", "/api/posts", payload, {"Idempotency-Key": key}))

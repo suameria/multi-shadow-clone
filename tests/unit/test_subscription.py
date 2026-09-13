@@ -1,8 +1,8 @@
 from copy import deepcopy
 import unittest
 
-from kagebunshin.orchestration.domain.contracts import InvalidContract
-from kagebunshin.orchestration.domain.subscription import included_usage
+from multi_shadow_clone.orchestration.domain.contracts import InvalidContract
+from multi_shadow_clone.orchestration.domain.subscription import included_usage
 
 
 class SubscriptionTest(unittest.TestCase):

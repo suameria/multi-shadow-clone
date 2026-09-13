@@ -2,8 +2,8 @@
 from copy import deepcopy
 import unittest
 
-from kagebunshin.orchestration.infrastructure.codex_catalog import restricted_catalog, TOOL_FIELDS
-from kagebunshin.orchestration.ports import ProviderBlocked
+from multi_shadow_clone.orchestration.infrastructure.codex_catalog import restricted_catalog, TOOL_FIELDS
+from multi_shadow_clone.orchestration.ports import ProviderBlocked
 
 
 def fixture():

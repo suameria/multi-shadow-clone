@@ -4,10 +4,10 @@ import tempfile
 import shutil
 import unittest
 
-from kagebunshin.execution.domain.admission import Rejected
-from kagebunshin.execution.domain.checks import CheckOutcomeUnknown
-from kagebunshin.execution.infrastructure.check_workspace import check_workspace
-from kagebunshin.execution.infrastructure.owned_files import OwnedFiles
+from multi_shadow_clone.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.domain.checks import CheckOutcomeUnknown
+from multi_shadow_clone.execution.infrastructure.check_workspace import check_workspace
+from multi_shadow_clone.execution.infrastructure.owned_files import OwnedFiles
 
 
 class CheckWorkspaceTest(unittest.TestCase):
@@ -62,7 +62,7 @@ class CheckWorkspaceTest(unittest.TestCase):
             [dict(observation(),sha256='0'*64)],
             [observation(),observation()],
             [observation('folder'),observation('folder/child')],
-            [observation('.kagebunshin-scratch/data')],
+            [observation('.multi-shadow-clone-scratch/data')],
             [observation('../outside')],
             [observation(content='too many bytes')],
         ]

@@ -1,6 +1,6 @@
 import unittest
 
-from kagebunshin.delivery.application.overview import DeliveryOverview
+from multi_shadow_clone.delivery.application.overview import DeliveryOverview
 
 
 class DeliveryOverviewTest(unittest.TestCase):

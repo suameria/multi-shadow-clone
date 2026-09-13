@@ -1,7 +1,7 @@
 import unittest
 
-from kagebunshin.orchestration.application.engine import Engine
-from kagebunshin.orchestration.domain.contracts import Node, Plan
+from multi_shadow_clone.orchestration.application.engine import Engine
+from multi_shadow_clone.orchestration.domain.contracts import Node, Plan
 from tests.unit.fakes import MemoryStore, ROLES, ScriptedProvider
 
 

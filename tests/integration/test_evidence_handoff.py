@@ -3,12 +3,12 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from kagebunshin.knowledge.application.library import Library
-from kagebunshin.knowledge.application.workflow import KnowledgeWorkflow
-from kagebunshin.knowledge.infrastructure.job_bridge import EvidenceJobs
-from kagebunshin.knowledge.infrastructure.sqlite_store import SQLiteKnowledgeStore
-from kagebunshin.orchestration.application.engine import Engine
-from kagebunshin.orchestration.infrastructure.sqlite_store import SQLiteRunStore
+from multi_shadow_clone.knowledge.application.library import Library
+from multi_shadow_clone.knowledge.application.workflow import KnowledgeWorkflow
+from multi_shadow_clone.knowledge.infrastructure.job_bridge import EvidenceJobs
+from multi_shadow_clone.knowledge.infrastructure.sqlite_store import SQLiteKnowledgeStore
+from multi_shadow_clone.orchestration.application.engine import Engine
+from multi_shadow_clone.orchestration.infrastructure.sqlite_store import SQLiteRunStore
 from tests.unit.fakes import ROLES, ScriptedProvider
 
 

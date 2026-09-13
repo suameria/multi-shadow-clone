@@ -10,9 +10,9 @@ import sys
 import tempfile
 import unittest
 
-from kagebunshin.orchestration.application.engine import Engine
-from kagebunshin.orchestration.domain.contracts import Node, Plan
-from kagebunshin.orchestration.infrastructure.sqlite_store import SQLiteRunStore
+from multi_shadow_clone.orchestration.application.engine import Engine
+from multi_shadow_clone.orchestration.domain.contracts import Node, Plan
+from multi_shadow_clone.orchestration.infrastructure.sqlite_store import SQLiteRunStore
 from tests.unit.fakes import ROLES, ScriptedProvider
 
 
@@ -20,8 +20,8 @@ CHILD = r'''
 import signal, sys
 from pathlib import Path
 sys.path[:0] = [str(Path(sys.argv[1]) / "src"), sys.argv[1]]
-from kagebunshin.orchestration.application.engine import Engine
-from kagebunshin.orchestration.infrastructure.sqlite_store import SQLiteRunStore
+from multi_shadow_clone.orchestration.application.engine import Engine
+from multi_shadow_clone.orchestration.infrastructure.sqlite_store import SQLiteRunStore
 from tests.unit.fakes import ROLES, ScriptedProvider
 
 path, run_id, phase = Path(sys.argv[2]), sys.argv[3], sys.argv[4]

@@ -28,19 +28,19 @@ if __name__ == "__main__":
     result = unittest.TextTestRunner(verbosity=2, resultclass=RecordedResult).run(suite)
     directory = ROOT / "evidence" / "foundation"
     directory.mkdir(parents=True, exist_ok=True)
-    files = [*sorted((ROOT / "src" / "kagebunshin").rglob("*.py")),
-             *sorted((ROOT / "src" / "kagebunshin").rglob("*.html")),
-             *sorted((ROOT / "src" / "kagebunshin").rglob("*.css")),
-             *sorted((ROOT / "src" / "kagebunshin").rglob("*.js")),
+    files = [*sorted((ROOT / "src" / "multi_shadow_clone").rglob("*.py")),
+             *sorted((ROOT / "src" / "multi_shadow_clone").rglob("*.html")),
+             *sorted((ROOT / "src" / "multi_shadow_clone").rglob("*.css")),
+             *sorted((ROOT / "src" / "multi_shadow_clone").rglob("*.js")),
              *sorted((ROOT / "tests" / "unit").rglob("*.py")),
              *sorted((ROOT / "tests" / "integration").rglob("*.py")),
              *sorted((ROOT / "tests" / "contracts").rglob("*.py")),
              *sorted((ROOT / "tests" / "static").rglob("*.py")),
              *sorted((ROOT / "tests" / "fixtures").rglob("*.json")),
-             *sorted((ROOT / "tools" / "kagebunshin").glob("*.py")),
+             *sorted((ROOT / "tools" / "multi-shadow-clone").glob("*.py")),
              *sorted((ROOT / "tools" / "verification").glob("*.py")),
              *sorted((ROOT / "examples/evaluation").glob("*.json")),
-             ROOT / "src/kagebunshin/orchestration/roles.json"]
+             ROOT / "src/multi_shadow_clone/orchestration/roles.json"]
     record = {"at": datetime.now(timezone.utc).isoformat(), "success": result.wasSuccessful(),
               "unit_passed": sum("tests.unit." in t and "test_architecture" not in t for t in result.passed),
               "integration_passed": sum("tests.integration." in t for t in result.passed),

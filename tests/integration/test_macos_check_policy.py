@@ -7,8 +7,8 @@ import sys
 import tempfile
 import unittest
 
-from kagebunshin.execution.infrastructure.macos_sandbox import python_check_policy
-from kagebunshin.execution.infrastructure.check_process import run_check_process
+from multi_shadow_clone.execution.infrastructure.macos_sandbox import python_check_policy
+from multi_shadow_clone.execution.infrastructure.check_process import run_check_process
 
 
 @unittest.skipUnless(sys.platform == 'darwin', 'macOS Seatbelt integration')

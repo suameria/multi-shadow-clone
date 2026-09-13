@@ -1,7 +1,7 @@
 from pathlib import Path
 import json,tempfile,unittest
-from kagebunshin.execution.presentation.workspace_config import load_workspace_config
-from kagebunshin.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.presentation.workspace_config import load_workspace_config
+from multi_shadow_clone.execution.domain.admission import Rejected
 
 class WorkspaceConfigTest(unittest.TestCase):
     def test_explicit_configuration_rejects_extra_authority_and_duplicates(self):
@@ -16,8 +16,8 @@ class WorkspaceConfigTest(unittest.TestCase):
             with self.assertRaises(Rejected):load_workspace_config(path)
 
     def test_operator_engine_scope_reopens_explicit_jobs_and_closes_workspace(self):
-        from kagebunshin.bootstrap import engine_scope
-        from kagebunshin.orchestration.domain.contracts import Node, Plan
+        from multi_shadow_clone.bootstrap import engine_scope
+        from multi_shadow_clone.orchestration.domain.contracts import Node, Plan
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory).resolve()
             workspace=root/'workspace';workspace.mkdir()

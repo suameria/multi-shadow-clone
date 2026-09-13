@@ -2,9 +2,9 @@ from dataclasses import replace
 import json
 import unittest
 
-from kagebunshin.orchestration.application.engine import Engine
-from kagebunshin.orchestration.domain.contracts import Limits, Node, Plan, Rule
-from kagebunshin.orchestration.ports import ProviderBlocked, ProviderUnknown, Result
+from multi_shadow_clone.orchestration.application.engine import Engine
+from multi_shadow_clone.orchestration.domain.contracts import Limits, Node, Plan, Rule
+from multi_shadow_clone.orchestration.ports import ProviderBlocked, ProviderUnknown, Result
 from tests.unit.fakes import MemoryStore, ROLES, ScriptedProvider, candidate
 
 

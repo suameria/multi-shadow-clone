@@ -13,7 +13,7 @@ Codexの既存サブスクリプションを使う、ローカルのマルチエ
 
 ## 使う
 
-メイン・専門担当・独立監査の共通設定は `src/kagebunshin/orchestration/infrastructure/codex_provider.py` の `CodexProfile` に集約しています。既定値はGPT‑5.6 Luna / low / default。BOT用の子プロセスにだけ明示し、アプリ全体の設定を書き換えません。運転席の「設定を読み込む」から共通または役別のモデル・推論強度を保存できます。対応はLunaとAstraの実カタログで確認できる組合せだけです。新しい仕事へ設定版を固定し、既存の仕事は元の設定を維持します。週間使用量はアカウント全体の観測で、BOT別の消費量ではありません。
+メイン・専門担当・独立監査の共通設定は `src/multi_shadow_clone/orchestration/infrastructure/codex_provider.py` の `CodexProfile` に集約しています。既定値はGPT‑5.6 Luna / low / default。BOT用の子プロセスにだけ明示し、アプリ全体の設定を書き換えません。運転席の「設定を読み込む」から共通または役別のモデル・推論強度を保存できます。対応はLunaとAstraの実カタログで確認できる組合せだけです。新しい仕事へ設定版を固定し、既存の仕事は元の設定を維持します。週間使用量はアカウント全体の観測で、BOT別の消費量ではありません。
 
 `multi-shadow-clone` ディレクトリをCodexで開きます。操作を依頼するなら、次の文章を使えます。
 
@@ -25,8 +25,8 @@ Codexの既存サブスクリプションを使う、ローカルのマルチエ
 
 ```sh
 python3 -I tools/verification/host.py
-python3 -I tools/kagebunshin/host.py roles
-python3 -I tools/kagebunshin/operator.py --mode offline
+python3 -I tools/multi-shadow-clone/host.py roles
+python3 -I tools/multi-shadow-clone/operator.py --mode offline
 ```
 
 表示された `http://127.0.0.1:ポート/` を開きます。空きポートを選びます。画面から依頼と資料を保存し、仕事の「実行」で動かします。保存・停止解除だけではモデルを呼びません。offlineは固定応答による操作練習であり、AIの分析結果ではありません。
@@ -34,16 +34,16 @@ python3 -I tools/kagebunshin/operator.py --mode offline
 実Codexの画面は次の入口です。起動だけではモデルを呼びませんが、認証や設定の読取りは行います。
 
 ```sh
-python3 -I tools/kagebunshin/operator.py --mode codex
+python3 -I tools/multi-shadow-clone/operator.py --mode codex
 ```
 
 CLIで保存してから実行することもできます。
 
 ```sh
-python3 -I tools/kagebunshin/host.py --mode codex submit examples/request.json
-python3 -I tools/kagebunshin/host.py --mode codex run <返されたrun_id>
-python3 -I tools/kagebunshin/host.py --mode codex status <run_id>
-python3 -I tools/kagebunshin/host.py --mode codex stop <run_id>
+python3 -I tools/multi-shadow-clone/host.py --mode codex submit examples/request.json
+python3 -I tools/multi-shadow-clone/host.py --mode codex run <返されたrun_id>
+python3 -I tools/multi-shadow-clone/host.py --mode codex status <run_id>
+python3 -I tools/multi-shadow-clone/host.py --mode codex stop <run_id>
 ```
 
 ## 仕事の仕組み
@@ -63,7 +63,7 @@ flowchart LR
 
 専門役は渡された資料から文章・分析・設計・コード差分案を返します。ホストが専用workspaceとjob policyを明示した担当だけ、許可ファイルの読取り・hash照合付き変更・登録検査を使えます。任意shellや自由な外部送信先は提供しません。[専用作業場所の運用](docs/owned-workspace-jobs.md)に準備・実行・復旧・退役の手順があります。肩書きや性格は、資格や誤りのない答えの保証ではありません。
 
-Domainは規則、Applicationは仕事の順序と停止、InfrastructureはCodex・SQLite・OS、PresentationはCLIと画面を担当します。`orchestration`は仕事、`knowledge`は根拠、`delivery`は投稿、`evaluation`は比較問題、`execution`は予約したファイル操作・登録検査・所有資源の退役を所有します。具象の組立ては `src/kagebunshin/bootstrap.py` にまとめています。
+Domainは規則、Applicationは仕事の順序と停止、InfrastructureはCodex・SQLite・OS、PresentationはCLIと画面を担当します。`orchestration`は仕事、`knowledge`は根拠、`delivery`は投稿、`evaluation`は比較問題、`execution`は予約したファイル操作・登録検査・所有資源の退役を所有します。具象の組立ては `src/multi_shadow_clone/bootstrap.py` にまとめています。
 
 ## 停止と再起動
 
@@ -77,7 +77,7 @@ Macのスリープやネット切断はローカル処理を止めます。常�
 
 ## 根拠の記憶
 
-`tools/kagebunshin/knowledge.py` の `register` は、本文・題名・URL・確認日・読解範囲・権利を持つ自作snapshot JSONを登録します。URLだけで本文を取得しません。`claim` で主張を登録し、`prepare-review` で保存したレビューjobを実行し、`support` で独立監査済みの肯定結果だけを支持済みへ昇格できます。否定のレビューが正常に完了しても、その主張を支持しません。
+`tools/multi-shadow-clone/knowledge.py` の `register` は、本文・題名・URL・確認日・読解範囲・権利を持つ自作snapshot JSONを登録します。URLだけで本文を取得しません。`claim` で主張を登録し、`prepare-review` で保存したレビューjobを実行し、`support` で独立監査済みの肯定結果だけを支持済みへ昇格できます。否定のレビューが正常に完了しても、その主張を支持しません。
 
 関係は `supports / contradicts / supersedes`。新しさだけで上書きしません。`retract` は失効、`erase` は自分が管理する出典・主張・関係と関連するjob本文を消去します。Codex側の履歴、配送先、手動export、backup、OS snapshotの全コピー削除とは異なり、全消去済みと表示しません。
 
@@ -86,12 +86,12 @@ Macのスリープやネット切断はローカル処理を止めます。常�
 基本の分析には不要です。別途、対応するSuameriaソースが `~/workspaces/code/suameria-services` にあり、公式のworktree・Make・Docker手順が使える場合に限ります。この束にそのサービスのソースやDocker資源は含めません。
 
 ```sh
-python3 -I tools/kagebunshin/worktree.py start
-python3 -I tools/kagebunshin/host.py --mode codex create examples/private-post.json
-python3 -I tools/kagebunshin/host.py --mode codex run <run_id>
-python3 -I tools/kagebunshin/delivery.py send <run_id> announcement --business-key synthetic-demo-001
-python3 -I tools/kagebunshin/worktree.py status
-python3 -I tools/kagebunshin/worktree.py retire
+python3 -I tools/multi-shadow-clone/worktree.py start
+python3 -I tools/multi-shadow-clone/host.py --mode codex create examples/private-post.json
+python3 -I tools/multi-shadow-clone/host.py --mode codex run <run_id>
+python3 -I tools/multi-shadow-clone/delivery.py send <run_id> announcement --business-key synthetic-demo-001
+python3 -I tools/multi-shadow-clone/worktree.py status
+python3 -I tools/multi-shadow-clone/worktree.py retire
 ```
 
 正規の所有環境へ、監査済みの合成テキストを非公開投稿します。別URLや公開SNSへ切り替えません。同じ業務キー・正規化本文を重複させず、unknownは相手の確認済み能力に従って照合します。文字列の正規化は完全な意味判定ではありません。
@@ -110,14 +110,14 @@ python3 -I tools/kagebunshin/worktree.py retire
 
 ## 評価を版ごとに残す
 
-`python3 -I tools/kagebunshin/evaluate.py --study astra-low-v1 status`で指定版を読み、`status`を`run --case E01 --arm single`へ変えると既存Codex枠の確認後に比較を実行します。--studyはoperationより前です。旧sourceへ混入せず、旧DBと結果は保持します。初回receiptを上書きせず追加結果は別snapshotです。名前が新しくても問題は同じ公開pilot-v1であり、未知問題への評価とは呼びません。全評価版の失敗も比較に含めます。
+`python3 -I tools/multi-shadow-clone/evaluate.py --study astra-low-v1 status`で指定版を読み、`status`を`run --case E01 --arm single`へ変えると既存Codex枠の確認後に比較を実行します。--studyはoperationより前です。旧sourceへ混入せず、旧DBと結果は保持します。初回receiptを上書きせず追加結果は別snapshotです。名前が新しくても問題は同じ公開pilot-v1であり、未知問題への評価とは呼びません。全評価版の失敗も比較に含めます。
 
 ## 役別の公開評価課題
 
 `examples/evaluation/role-contracts-v1.json` は60役それぞれ1問の開発用課題です。専門能力の認定ではありません。モデル呼出しなしで現在のstudyを読む例：
 
 ```sh
-python3 -I tools/kagebunshin/evaluate.py --suite role-contracts-v1 --study role-contracts-astra-low-v1 status
+python3 -I tools/multi-shadow-clone/evaluate.py --suite role-contracts-v1 --study role-contracts-astra-low-v1 status
 ```
 
 配布束に元の実行DBは含まれないため、新規展開先の結果は0件です。`run --case R02-C01 --arm single` は明示的な実Codex呼出しです。通常枠などの前提確認を通った場合だけ実行します。対象役への直接single条件だけに対応し、60問の一括指定は上限超過として拒否します。既存の失敗を上書きせず、suiteとstudyとソース版を区別します。
@@ -129,7 +129,7 @@ python3 -I tools/kagebunshin/evaluate.py --suite role-contracts-v1 --study role-
 終了した所有タスクは成果を保存して自動アーカイブする。失敗は `task_cleanup` の `cleanup_pending` に残る。生成を再実行せず、同じモード・データ保存先で次を実行する。
 
 ```sh
-python3 tools/kagebunshin/host.py --mode codex cleanup RUN_ID
+python3 tools/multi-shadow-clone/host.py --mode codex cleanup RUN_ID
 ```
 
 他者タスクは対象外。終了不明は先に照合する。送信前のタスクは、作成接続で未永続化と明示確認しプロセス終了した場合に `released_unmaterialized`（未永続タスク解放）を記録する。`archived`（保存済み履歴のアーカイブ）とは異なる。判定できなければ保留する。

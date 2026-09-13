@@ -2,8 +2,8 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from kagebunshin.execution.domain.admission import Rejected
-from kagebunshin.execution.infrastructure.check_journal import CheckJournal
+from multi_shadow_clone.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.infrastructure.check_journal import CheckJournal
 
 
 class CheckJournalTest(unittest.TestCase):

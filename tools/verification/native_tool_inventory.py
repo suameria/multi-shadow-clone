@@ -13,9 +13,9 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
-from kagebunshin.bootstrap import codex_engine
-from kagebunshin.orchestration.domain.contracts import Limits, Node, Plan
-from kagebunshin.orchestration.infrastructure.codex_rpc import StdioRPC
+from multi_shadow_clone.bootstrap import codex_engine
+from multi_shadow_clone.orchestration.domain.contracts import Limits, Node, Plan
+from multi_shadow_clone.orchestration.infrastructure.codex_rpc import StdioRPC
 
 
 def tool_fields(value, path="$", depth=0):

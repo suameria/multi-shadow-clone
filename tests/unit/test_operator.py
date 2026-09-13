@@ -1,9 +1,9 @@
 import unittest
 
-from kagebunshin.orchestration.application.engine import Engine
-from kagebunshin.orchestration.application.operator import Operator
-from kagebunshin.orchestration.application.team import Team
-from kagebunshin.orchestration.domain.contracts import Node, Plan
+from multi_shadow_clone.orchestration.application.engine import Engine
+from multi_shadow_clone.orchestration.application.operator import Operator
+from multi_shadow_clone.orchestration.application.team import Team
+from multi_shadow_clone.orchestration.domain.contracts import Node, Plan
 from tests.unit.fakes import MemoryStore, ROLES, ScriptedProvider
 
 
@@ -25,7 +25,7 @@ class OperatorTest(unittest.TestCase):
         self.assertEqual(provider.requests, [])
 
     def test_preflight_pause_has_recovery_guidance_and_resume_still_dispatches_nothing(self):
-        from kagebunshin.orchestration.ports import ProviderBlocked
+        from multi_shadow_clone.orchestration.ports import ProviderBlocked
         provider = ScriptedProvider()
         engine = Engine(MemoryStore(), provider, ROLES, lambda: 1000)
         job = engine.create(Plan("fixture", (Node("a", "R07", "read"),), {}))
@@ -89,7 +89,7 @@ class OperatorTest(unittest.TestCase):
         with self.assertRaises(ValueError): operator.act("delete", job)
 
     def test_cleanup_action_and_projection_do_not_generate_again(self):
-        from kagebunshin.orchestration.ports import Result
+        from multi_shadow_clone.orchestration.ports import Result
         from tests.unit.fakes import candidate
         provider = ScriptedProvider(lambda _: Result('completed', candidate(), 'owned', 'turn'))
         def unavailable(*args): raise RuntimeError('archive unavailable')

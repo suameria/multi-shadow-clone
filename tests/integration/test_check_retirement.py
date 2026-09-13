@@ -4,10 +4,10 @@ import shutil
 import tempfile
 import unittest
 
-from kagebunshin.execution.domain.admission import Rejected
-from kagebunshin.execution.domain.checks import CheckOutcomeUnknown
-from kagebunshin.execution.infrastructure.check_workspace import check_workspace
-from kagebunshin.execution.infrastructure.check_retirement import retire_check_workspace
+from multi_shadow_clone.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.domain.checks import CheckOutcomeUnknown
+from multi_shadow_clone.execution.infrastructure.check_workspace import check_workspace
+from multi_shadow_clone.execution.infrastructure.check_retirement import retire_check_workspace
 
 
 class CheckRetirementTest(unittest.TestCase):
@@ -39,13 +39,13 @@ class CheckRetirementTest(unittest.TestCase):
             moved=root/'moved-owned-fixture'
             snapshot.root.rename(moved)
             snapshot.root.mkdir()
-            (snapshot.root/'.kagebunshin-owner').write_bytes((moved/'.kagebunshin-owner').read_bytes())
+            (snapshot.root/'.multi-shadow-clone-owner').write_bytes((moved/'.multi-shadow-clone-owner').read_bytes())
             (snapshot.root/'keep').write_text('replacement')
             with self.assertRaises(Rejected): retire_check_workspace(snapshot.ownership)
             self.assertEqual((snapshot.root/'keep').read_text(),'replacement')
             shutil.rmtree(snapshot.root)
             moved.rename(snapshot.root)
-            marker=snapshot.root/'.kagebunshin-owner'
+            marker=snapshot.root/'.multi-shadow-clone-owner'
             original=marker.read_bytes()
             marker.chmod(0o600)
             marker.write_text('changed')

@@ -5,10 +5,10 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from kagebunshin.execution.application.containers import Containers
-from kagebunshin.execution.domain.admission import Rejected
-from kagebunshin.execution.infrastructure.container_journal import ContainerJournal
-from kagebunshin.execution.infrastructure.docker_sandbox import NodeContainer
+from multi_shadow_clone.execution.application.containers import Containers
+from multi_shadow_clone.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.infrastructure.container_journal import ContainerJournal
+from multi_shadow_clone.execution.infrastructure.docker_sandbox import NodeContainer
 
 
 class Runtime:

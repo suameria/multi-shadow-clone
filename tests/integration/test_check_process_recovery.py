@@ -9,14 +9,14 @@ import time
 import unittest
 from unittest.mock import patch
 
-from kagebunshin.execution.application.executor import Executor
-from kagebunshin.execution.application.reservations import Reservations
-from kagebunshin.execution.domain.admission import Binding, Grant, Rejected
-from kagebunshin.execution.domain.checks import PythonCheck
-from kagebunshin.execution.infrastructure.owned_files import OwnedFiles
-from kagebunshin.execution.infrastructure.python_checks import PythonChecks
-from kagebunshin.execution.infrastructure.sqlite_store import SQLiteOperationStore
-from kagebunshin.execution.infrastructure.check_journal import CheckJournal
+from multi_shadow_clone.execution.application.executor import Executor
+from multi_shadow_clone.execution.application.reservations import Reservations
+from multi_shadow_clone.execution.domain.admission import Binding, Grant, Rejected
+from multi_shadow_clone.execution.domain.checks import PythonCheck
+from multi_shadow_clone.execution.infrastructure.owned_files import OwnedFiles
+from multi_shadow_clone.execution.infrastructure.python_checks import PythonChecks
+from multi_shadow_clone.execution.infrastructure.sqlite_store import SQLiteOperationStore
+from multi_shadow_clone.execution.infrastructure.check_journal import CheckJournal
 
 
 @unittest.skipUnless(sys.platform == 'darwin','macOS durable check recovery')
@@ -30,13 +30,13 @@ class CheckProcessRecoveryTest(unittest.TestCase):
 from pathlib import Path
 from hashlib import sha256
 sys.path.insert(0,sys.argv[1])
-from kagebunshin.execution.application.executor import Executor
-from kagebunshin.execution.application.reservations import Reservations
-from kagebunshin.execution.domain.admission import Binding
-from kagebunshin.execution.domain.checks import PythonCheck
-from kagebunshin.execution.infrastructure.owned_files import OwnedFiles
-from kagebunshin.execution.infrastructure.python_checks import PythonChecks
-from kagebunshin.execution.infrastructure.sqlite_store import SQLiteOperationStore
+from multi_shadow_clone.execution.application.executor import Executor
+from multi_shadow_clone.execution.application.reservations import Reservations
+from multi_shadow_clone.execution.domain.admission import Binding
+from multi_shadow_clone.execution.domain.checks import PythonCheck
+from multi_shadow_clone.execution.infrastructure.owned_files import OwnedFiles
+from multi_shadow_clone.execution.infrastructure.python_checks import PythonChecks
+from multi_shadow_clone.execution.infrastructure.sqlite_store import SQLiteOperationStore
 root=Path(sys.argv[2]); runtime=Path(sys.argv[3]); executable=Path(sys.argv[4])
 definition=PythonCheck('check','check.py',(('check.py',sha256((root/'source/check.py').read_bytes()).hexdigest()),),5,4096,4096)
 files=OwnedFiles(root/'source',{'check.py'})
@@ -51,7 +51,7 @@ Executor(app,{},checkers={'w':checks}).execute(binding,'one')
             source,snapshots=root/'source',root/'snapshots'
             source.mkdir();snapshots.mkdir()
             (root/'keep').write_text('other owned fixture')
-            content="import os\nfrom pathlib import Path\nPath('.kagebunshin-scratch/ready').write_text(str(os.getpid()))\nwhile True: pass"
+            content="import os\nfrom pathlib import Path\nPath('.multi-shadow-clone-scratch/ready').write_text(str(os.getpid()))\nwhile True: pass"
             (source/'check.py').write_text(content)
             definition=PythonCheck('check','check.py',(('check.py',sha256(content.encode()).hexdigest()),),5,4096,4096)
             binding=Binding('g','r','n','a','t','turn',0,'w','c'*64)
@@ -71,7 +71,7 @@ Executor(app,{},checkers={'w':checks}).execute(binding,'one')
                 child_pid=None
                 deadline=time.monotonic()+4
                 while time.monotonic()<deadline:
-                    markers=list(snapshots.glob('*/.kagebunshin-scratch/ready'))
+                    markers=list(snapshots.glob('*/.multi-shadow-clone-scratch/ready'))
                     if markers:
                         try:
                             child_pid=int(markers[0].read_text())
@@ -127,13 +127,13 @@ Executor(app,{},checkers={'w':checks}).execute(binding,'one')
 from pathlib import Path
 from hashlib import sha256
 sys.path.insert(0,sys.argv[1])
-from kagebunshin.execution.application.executor import Executor
-from kagebunshin.execution.application.reservations import Reservations
-from kagebunshin.execution.domain.admission import Binding
-from kagebunshin.execution.domain.checks import PythonCheck
-from kagebunshin.execution.infrastructure.owned_files import OwnedFiles
-from kagebunshin.execution.infrastructure.python_checks import PythonChecks
-from kagebunshin.execution.infrastructure.sqlite_store import SQLiteOperationStore
+from multi_shadow_clone.execution.application.executor import Executor
+from multi_shadow_clone.execution.application.reservations import Reservations
+from multi_shadow_clone.execution.domain.admission import Binding
+from multi_shadow_clone.execution.domain.checks import PythonCheck
+from multi_shadow_clone.execution.infrastructure.owned_files import OwnedFiles
+from multi_shadow_clone.execution.infrastructure.python_checks import PythonChecks
+from multi_shadow_clone.execution.infrastructure.sqlite_store import SQLiteOperationStore
 root=Path(sys.argv[2]); runtime=Path(sys.argv[3]); executable=Path(sys.argv[4])
 definition=PythonCheck('check','check.py',(('check.py',sha256((root/'source/check.py').read_bytes()).hexdigest()),),3,4096,4096)
 files=OwnedFiles(root/'source',{'check.py'})

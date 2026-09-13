@@ -3,8 +3,8 @@ import os
 from pathlib import Path
 import tempfile
 import unittest
-from kagebunshin.execution.infrastructure.owned_files import OwnedFiles
-from kagebunshin.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.infrastructure.owned_files import OwnedFiles
+from multi_shadow_clone.execution.domain.admission import Rejected
 
 
 class OwnedFilesTest(unittest.TestCase):
@@ -63,7 +63,7 @@ class OwnedFilesTest(unittest.TestCase):
                 closing.set()
                 reader.close()
             try:
-                with patch('kagebunshin.execution.infrastructure.owned_files.os.read',paused_read):
+                with patch('multi_shadow_clone.execution.infrastructure.owned_files.os.read',paused_read):
                     with ThreadPoolExecutor(max_workers=2) as pool:
                         future = pool.submit(reader.read_files, expected, 6)
                         try:
@@ -91,7 +91,7 @@ class OwnedFilesTest(unittest.TestCase):
                 second = writer.apply_change('file',first['after_hash'],'second',100)
                 with self.assertRaises(Rejected): writer.apply_change('file',first['after_hash'],'stale',100)
                 self.assertEqual((root/'file').read_text(),'second')
-                self.assertFalse(list(root.glob('.kagebunshin-*')))
+                self.assertFalse(list(root.glob('.multi-shadow-clone-*')))
                 writer.apply_change('file',second['after_hash'],None,100)
                 self.assertFalse((root/'file').exists())
             finally: writer.close()
@@ -114,12 +114,12 @@ class OwnedFilesTest(unittest.TestCase):
                     (root/'part'/'file').write_text('expected')
                 return result
             try:
-                with patch('kagebunshin.execution.infrastructure.owned_files.os.stat',swap_after_stat):
+                with patch('multi_shadow_clone.execution.infrastructure.owned_files.os.stat',swap_after_stat):
                     with self.assertRaises(Rejected):
                         writer.apply_change('part/file',sha256(b'expected').hexdigest(),'replacement',100)
                 self.assertEqual((root/'old'/'file').read_text(),'actual')
                 self.assertEqual((root/'part'/'file').read_text(),'expected')
-                self.assertFalse(list(root.rglob('.kagebunshin-*')))
+                self.assertFalse(list(root.rglob('.multi-shadow-clone-*')))
             finally: writer.close()
 
     def test_distinct_adapters_cannot_both_write_same_before_hash(self):
@@ -143,7 +143,7 @@ class OwnedFilesTest(unittest.TestCase):
                     outcomes = list(pool.map(write,enumerate(writers)))
                 self.assertEqual(sum(outcomes),1)
                 self.assertEqual((root/'output').read_text(),str(outcomes.index(True)))
-                self.assertFalse(list(root.glob('.kagebunshin-*')))
+                self.assertFalse(list(root.glob('.multi-shadow-clone-*')))
             finally:
                 for writer in writers: writer.close()
 

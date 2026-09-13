@@ -2,7 +2,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from kagebunshin.orchestration.infrastructure.build_identity import BuildIdentity
+from multi_shadow_clone.orchestration.infrastructure.build_identity import BuildIdentity
 
 
 class BuildIdentityIntegrationTest(unittest.TestCase):

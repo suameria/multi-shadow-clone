@@ -2,8 +2,8 @@ import unittest
 from copy import deepcopy
 from dataclasses import replace
 
-from kagebunshin.orchestration.domain.contracts import InvalidContract, Node, Plan
-from kagebunshin.orchestration.domain.execution_policy import validate_policy
+from multi_shadow_clone.orchestration.domain.contracts import InvalidContract, Node, Plan
+from multi_shadow_clone.orchestration.domain.execution_policy import validate_policy
 
 
 class ExecutionPolicyTest(unittest.TestCase):

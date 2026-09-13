@@ -2,13 +2,13 @@ from pathlib import Path
 from hashlib import sha256
 import tempfile
 import unittest
-from kagebunshin.execution.application.executor import Executor
-from kagebunshin.execution.application.reservations import Reservations
-from kagebunshin.execution.infrastructure.owned_files import OwnedFiles
-from kagebunshin.execution.infrastructure.sqlite_store import SQLiteOperationStore
-from kagebunshin.execution.presentation.job_sessions import JobSessions, fingerprint
-from kagebunshin.execution.domain.admission import Rejected
-from kagebunshin.orchestration.ports import Request
+from multi_shadow_clone.execution.application.executor import Executor
+from multi_shadow_clone.execution.application.reservations import Reservations
+from multi_shadow_clone.execution.infrastructure.owned_files import OwnedFiles
+from multi_shadow_clone.execution.infrastructure.sqlite_store import SQLiteOperationStore
+from multi_shadow_clone.execution.presentation.job_sessions import JobSessions, fingerprint
+from multi_shadow_clone.execution.domain.admission import Rejected
+from multi_shadow_clone.orchestration.ports import Request
 
 class JobSessionsTest(unittest.TestCase):
     def test_real_workspace_grant_actual_turn_and_stop(self):
@@ -25,7 +25,7 @@ class JobSessionsTest(unittest.TestCase):
                 request=Request('attempt','run','node','generate','R07','prompt','a'*64,may_continue=lambda:allowed[0])
                 prepared=sessions.prepare(scope,request,100,0)
                 prepared.bind('thread','turn')
-                response=prepared.handle(dict(threadId='thread',turnId='turn',callId='call',tool='kagebunshin_read_files',arguments=dict(files=[dict(path='a',expected_hash=sha256(b'hello').hexdigest())],max_bytes=100)))
+                response=prepared.handle(dict(threadId='thread',turnId='turn',callId='call',tool='multi_shadow_clone_read_files',arguments=dict(files=[dict(path='a',expected_hash=sha256(b'hello').hexdigest())],max_bytes=100)))
                 self.assertTrue(response['success'])
                 allowed[0]=False
                 with self.assertRaises(Rejected):sessions.prepare(scope,request,100,0)
@@ -49,7 +49,7 @@ class JobSessionsTest(unittest.TestCase):
             sessions.scope_contract(base)
 
     def test_unknown_check_recovery_uses_saved_checker_without_rerunning(self):
-        from kagebunshin.execution.domain.admission import Binding,Grant
+        from multi_shadow_clone.execution.domain.admission import Binding,Grant
         class Checker:
             def run_operation(self,*args,**kwargs):raise AssertionError('must not rerun')
             def completion(self,*args):return {'state':'completed','receipt':{'check_id':'test','definition_hash':'d'*64,'passed':True}}
@@ -75,7 +75,7 @@ class JobSessionsTest(unittest.TestCase):
 
     def test_shared_lease_blocks_other_jobs_and_fences_released_session(self):
         from dataclasses import replace
-        from kagebunshin.execution.infrastructure.workspace_leases import WorkspaceLeases
+        from multi_shadow_clone.execution.infrastructure.workspace_leases import WorkspaceLeases
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory).resolve();(root/'a').write_text('hello')
             files=OwnedFiles(root,{'a'})
@@ -91,6 +91,6 @@ class JobSessionsTest(unittest.TestCase):
                 contract=files.contract();identity={key:contract[key] for key in ('device','inode')}
                 lease=leases.claim(identity,'run',fingerprint(contract))
                 leases.release(identity,lease,'b'*64)
-                with self.assertRaises(Rejected):session.handle(dict(threadId='thread',turnId='turn',callId='call',tool='kagebunshin_read_files',arguments=dict(files=[dict(path='a',expected_hash=sha256(b'hello').hexdigest())],max_bytes=100)))
+                with self.assertRaises(Rejected):session.handle(dict(threadId='thread',turnId='turn',callId='call',tool='multi_shadow_clone_read_files',arguments=dict(files=[dict(path='a',expected_hash=sha256(b'hello').hexdigest())],max_bytes=100)))
                 self.assertEqual(reservations.store.read('attempt')['calls'],{})
             finally:files.close()

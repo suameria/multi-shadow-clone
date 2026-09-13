@@ -1,6 +1,6 @@
 import unittest
 from dataclasses import replace
-from kagebunshin.execution.domain.admission import Binding, Grant, Rejected, admit_batch
+from multi_shadow_clone.execution.domain.admission import Binding, Grant, Rejected, admit_batch
 
 
 class AdmissionTest(unittest.TestCase):
@@ -46,7 +46,7 @@ class AdmissionTest(unittest.TestCase):
                 admit_batch(self.grant, self.binding, [self.proposal], {}, **args)
 
     def test_invalid_host_grants_are_rejected(self):
-        from kagebunshin.execution.domain.admission import validate_grant
+        from multi_shadow_clone.execution.domain.admission import validate_grant
         for grant in (replace(self.grant, deadline=float('inf')), replace(self.grant, remaining=True),
                       replace(self.grant, paths=frozenset({'../other'})),
                       replace(self.grant, operations=frozenset({'shell'})),

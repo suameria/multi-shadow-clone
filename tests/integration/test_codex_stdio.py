@@ -5,8 +5,8 @@ from pathlib import Path
 import sys
 import unittest
 
-from kagebunshin.orchestration.infrastructure.codex_rpc import StdioRPC
-from kagebunshin.orchestration.ports import ProviderBlocked, ProviderUnknown
+from multi_shadow_clone.orchestration.infrastructure.codex_rpc import StdioRPC
+from multi_shadow_clone.orchestration.ports import ProviderBlocked, ProviderUnknown
 
 
 class StdioIntegrationTest(unittest.TestCase):
@@ -14,11 +14,11 @@ class StdioIntegrationTest(unittest.TestCase):
         return StdioRPC([sys.executable, "-I", "-u", "-c", code], Path.cwd(), timeout=0.3)
 
     def test_opted_in_tool_request_can_wait_for_turn_reply_and_is_answered_once(self):
-        definition={'type':'function','name':'kagebunshin_run_check','description':'Registered check',
+        definition={'type':'function','name':'multi_shadow_clone_run_check','description':'Registered check',
                     'inputSchema':{'type':'object','properties':{},'additionalProperties':False}}
         code='''import json,sys
 r=json.loads(sys.stdin.readline())
-print(json.dumps({'id':77,'method':'item/tool/call','params':{'threadId':'t','turnId':'u','callId':'c','tool':'kagebunshin_run_check','arguments':{}}}),flush=True)
+print(json.dumps({'id':77,'method':'item/tool/call','params':{'threadId':'t','turnId':'u','callId':'c','tool':'multi_shadow_clone_run_check','arguments':{}}}),flush=True)
 print(json.dumps({'id':r['id'],'result':{'thread':{'id':'t'}}}),flush=True)
 answer=json.loads(sys.stdin.readline())
 sys.exit(0 if answer['id']==77 and answer['result']['success'] is True else 4)
@@ -43,7 +43,7 @@ answer=json.loads(sys.stdin.readline())
 sys.exit(0 if 'error' in answer else 4)
 '''
         with self.server(code) as rpc:
-            rpc.configure_dynamic_tools([{'type':'function','name':'kagebunshin_run_check',
+            rpc.configure_dynamic_tools([{'type':'function','name':'multi_shadow_clone_run_check',
                 'description':'Registered','inputSchema':{'type':'object'}}])
             with self.assertRaises(ProviderBlocked): rpc.call('account/read',{})
             self.assertEqual(rpc.process.wait(timeout=1),0)

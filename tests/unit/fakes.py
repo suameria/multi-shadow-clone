@@ -4,8 +4,8 @@ from copy import deepcopy
 from dataclasses import asdict
 import json
 
-from kagebunshin.orchestration.domain.contracts import Role
-from kagebunshin.orchestration.ports import Conflict, ProviderUnknown, Result
+from multi_shadow_clone.orchestration.domain.contracts import Role
+from multi_shadow_clone.orchestration.ports import Conflict, ProviderUnknown, Result
 
 
 ROLES = {r.id: r for r in [Role("R01", "Main", "new task", "plan", "overdelegation", "bounded"),

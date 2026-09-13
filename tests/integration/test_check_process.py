@@ -7,7 +7,7 @@ import time
 import unittest
 from unittest.mock import patch
 
-from kagebunshin.execution.infrastructure.check_process import run_check_process
+from multi_shadow_clone.execution.infrastructure.check_process import run_check_process
 
 
 class CheckProcessTest(unittest.TestCase):
@@ -55,7 +55,7 @@ class CheckProcessTest(unittest.TestCase):
                 child = real_popen(*args, **kwargs)
                 children.append(child)
                 return child
-            with patch('kagebunshin.execution.infrastructure.check_process.subprocess.Popen', side_effect=launch):
+            with patch('multi_shadow_clone.execution.infrastructure.check_process.subprocess.Popen', side_effect=launch):
                 with self.assertRaisesRegex(RuntimeError, 'observer unavailable'):
                     self.run_script(script, directory, stopped=failing_observer)
             self.assertEqual(len(children), 1)

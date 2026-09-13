@@ -19,12 +19,12 @@ flowchart LR
 以下はリポジトリルートで実行する手順。大文字のファイル名・JOB_IDは利用者の実際のファイル・IDへ置き換える。
 
 ```sh
-python3 tools/kagebunshin/host.py --workspace-config WORKSPACE.json prepare-policy PLAN.json POLICY-DRAFT.json > POLICY.json
-python3 tools/kagebunshin/host.py --mode codex --workspace-config WORKSPACE.json create PLAN.json --execution-policy POLICY.json
-python3 tools/kagebunshin/host.py --mode codex --workspace-config WORKSPACE.json run JOB_ID
-python3 tools/kagebunshin/host.py --mode codex --workspace-config WORKSPACE.json status JOB_ID
-python3 tools/kagebunshin/host.py --mode codex --workspace-config WORKSPACE.json cleanup JOB_ID
-python3 tools/kagebunshin/host.py --mode codex --workspace-config WORKSPACE.json retire-workspace JOB_ID
+python3 tools/multi-shadow-clone/host.py --workspace-config WORKSPACE.json prepare-policy PLAN.json POLICY-DRAFT.json > POLICY.json
+python3 tools/multi-shadow-clone/host.py --mode codex --workspace-config WORKSPACE.json create PLAN.json --execution-policy POLICY.json
+python3 tools/multi-shadow-clone/host.py --mode codex --workspace-config WORKSPACE.json run JOB_ID
+python3 tools/multi-shadow-clone/host.py --mode codex --workspace-config WORKSPACE.json status JOB_ID
+python3 tools/multi-shadow-clone/host.py --mode codex --workspace-config WORKSPACE.json cleanup JOB_ID
+python3 tools/multi-shadow-clone/host.py --mode codex --workspace-config WORKSPACE.json retire-workspace JOB_ID
 ```
 
 専用DBを選ぶ場合は同じ `--data-dir` を全操作へ指定する。offlineとcodexの既定DBは別。offlineは固定応答の説明用で、道具の実行能力を持たない。
@@ -41,7 +41,7 @@ python3 tools/kagebunshin/host.py --mode codex --workspace-config WORKSPACE.json
 CLIで作った仕事を扱うときは、同じデータディレクトリとホスト設定を明示する。
 
 ```sh
-python3 -I tools/kagebunshin/operator.py --mode codex --data-dir /absolute/private/job-state --workspace-config /absolute/private/workspace.json
+python3 -I tools/multi-shadow-clone/operator.py --mode codex --data-dir /absolute/private/job-state --workspace-config /absolute/private/workspace.json
 ```
 
 起動だけではモデルturnを開始しない。仕事一覧にはworkspace IDと退役状態を表示し、実行中の試行や結果不明がない仕事に退役ボタンを出す。退役開始後は再開できない。役別モデル設定でEngineを切り替えても同じホストの道具sessionを使い、既存jobのpolicyを再照合する。画面の自由文入力からworkspace権限を作ることはなく、道具付きjobの作成は上記CLIの明示policyを使う。
@@ -87,7 +87,7 @@ config = dict(workspace_id='addition-fixture', workspace_root=str(workspace),
 (root / 'workspace.json').write_text(json.dumps(config, indent=2))
 print(root / 'workspace.json')
 PYCODE
-python3 -I tools/kagebunshin/host.py --data-dir runtime/addition-demo/jobs --workspace-config runtime/addition-demo/workspace.json prepare-policy examples/workspace/addition-plan.json examples/workspace/addition-policy-draft.json > runtime/addition-demo/policy.json
+python3 -I tools/multi-shadow-clone/host.py --data-dir runtime/addition-demo/jobs --workspace-config runtime/addition-demo/workspace.json prepare-policy examples/workspace/addition-plan.json examples/workspace/addition-policy-draft.json > runtime/addition-demo/policy.json
 ```
 
 既存の `runtime/addition-demo` がある場合は上書きせず停止する。作成後は同じdata-dir/workspace-configで `create`・`run`・`cleanup`・`retire-workspace` を使う。`create`のplanは `examples/workspace/addition-plan.json`、execution-policyは `runtime/addition-demo/policy.json` を指定する。実行は最大2モデルturnで、成功を保証しない。不明状態のままディレクトリを削除しない。退役の成功を確認してから、所有するこの教材ディレクトリを片付ける。

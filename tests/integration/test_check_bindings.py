@@ -3,9 +3,9 @@ from pathlib import Path
 import sqlite3
 import tempfile
 import unittest
-from kagebunshin.execution.infrastructure.check_bindings import CheckBindings
-from kagebunshin.execution.domain.checks import NodeCheck
-from kagebunshin.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.infrastructure.check_bindings import CheckBindings
+from multi_shadow_clone.execution.domain.checks import NodeCheck
+from multi_shadow_clone.execution.domain.admission import Rejected
 
 class CheckBindingsTest(unittest.TestCase):
     def test_reopen_reuses_exact_inputs_and_rebinding_is_rejected(self):

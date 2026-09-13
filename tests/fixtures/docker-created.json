@@ -1,7 +1,7 @@
 {
   "Id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
   "Image": "sha256:272a73c8b60a561e935bff77247aa21081da4f5e1576e10987553ceaf7f22028",
-  "Name": "/kagebunshin-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "Name": "/multi-shadow-clone-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   "Mounts": [],
   "Config": {
     "Hostname": "fixture",
@@ -33,8 +33,8 @@
       "/usr/local/bin/node"
     ],
     "Labels": {
-      "io.kagebunshin.owner": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "io.kagebunshin.kind": "bounded-check-v1"
+      "io.multi-shadow-clone.owner": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "io.multi-shadow-clone.kind": "bounded-check-v1"
     }
   },
   "HostConfig": {

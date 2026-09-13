@@ -1,7 +1,7 @@
 import unittest
 from copy import deepcopy
-from kagebunshin.execution.domain.retirement import validate_retirement
-from kagebunshin.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.domain.retirement import validate_retirement
+from multi_shadow_clone.execution.domain.admission import Rejected
 
 class RetirementTest(unittest.TestCase):
     def setUp(self):

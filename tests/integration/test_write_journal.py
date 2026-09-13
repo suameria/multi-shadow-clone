@@ -3,9 +3,9 @@ import json
 from hashlib import sha256
 import tempfile
 import unittest
-from kagebunshin.execution.domain.admission import Rejected
-from kagebunshin.execution.infrastructure.owned_files import OwnedFiles
-from kagebunshin.execution.infrastructure.write_journal import WriteJournal,JournaledWriter
+from multi_shadow_clone.execution.domain.admission import Rejected
+from multi_shadow_clone.execution.infrastructure.owned_files import OwnedFiles
+from multi_shadow_clone.execution.infrastructure.write_journal import WriteJournal,JournaledWriter
 
 
 class WriteJournalTest(unittest.TestCase):

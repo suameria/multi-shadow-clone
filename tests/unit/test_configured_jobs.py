@@ -1,11 +1,11 @@
 import unittest
-from kagebunshin.orchestration.application.configured_jobs import ConfiguredJobs
-from kagebunshin.orchestration.application.settings import Settings
-from kagebunshin.orchestration.application.overview import Overview
-from kagebunshin.orchestration.application.operator import Operator
-from kagebunshin.orchestration.application.role_provider import RoleProvider
-from kagebunshin.orchestration.application.engine import Engine
-from kagebunshin.orchestration.domain.contracts import Limits
+from multi_shadow_clone.orchestration.application.configured_jobs import ConfiguredJobs
+from multi_shadow_clone.orchestration.application.settings import Settings
+from multi_shadow_clone.orchestration.application.overview import Overview
+from multi_shadow_clone.orchestration.application.operator import Operator
+from multi_shadow_clone.orchestration.application.role_provider import RoleProvider
+from multi_shadow_clone.orchestration.application.engine import Engine
+from multi_shadow_clone.orchestration.domain.contracts import Limits
 from tests.unit.fakes import MemoryStore, ScriptedProvider, ROLES
 
 
